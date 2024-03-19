@@ -1,0 +1,51 @@
+import { UserItem } from '@/lib/database/models/user.model';
+
+export const dummyUsers: UserItem[] = [
+    {
+        _id: "1",
+        clerkId: "clerkId1",
+        imageURL: "https://picsum.photos/id/237/200/300",
+        email: "example@example.com",
+        website: "enyaumanzor.com",
+        username: "enyaumanzor",
+        firstName: "Enya",
+        lastName: "Umanzor",
+        photo: "http://example.com/photo/user1.jpg",
+        location: "24 whitecres Ave, Calgary AB",
+        contactNumber: "587 946 5892",
+        serviceIDs: ["1", "2"],
+        ratingReviewIDs: ["1", "2"],
+    },
+    {
+        _id: "2",
+        clerkId: "clerkId2",
+        imageURL: "https://picsum.photos/id/237/200/300",
+        email: "example2@example.com",
+        website: "enyaumanzor.com",
+        username: "cacofelix",
+        firstName: "Felix",
+        lastName: "Catton",
+        photo: "http://example.com/photo/user2.jpg",
+        location: "Your mama's house",
+        contactNumber: "587 946 5892",
+        serviceIDs: [],
+        ratingReviewIDs: [],
+    },
+    {
+        _id: "3",
+        clerkId: "clerkId3",
+        imageURL: "http://example.com/profile",
+        email: "example3@example.com",
+        website: "enyaumanzor.com",
+        username: "username3",
+        firstName: "FirstName3",
+        lastName: "LastName3",
+        photo: "http://example.com/photo/user3.jpg",
+        location: "Location3",
+        contactNumber: "587 946 5892",
+        serviceIDs: [],
+        ratingReviewIDs: [],
+    },
+];
+
+export default dummyUsers;
