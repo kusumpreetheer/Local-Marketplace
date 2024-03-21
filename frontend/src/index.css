@@ -1,0 +1,51 @@
+/*
+    Any universal styles that are used across the application should be placed here.
+    Should be used as a last resort if Tailwind CSS does not provide the necessary styles.
+    Will remove the styles below(btn, component, sub-component) once the High fidelity prototypes are ready.
+*/
+:root{
+    --red-100: #D6001C
+}
+*{
+    font-family: proxima-nova, sans-serif;
+}
+html,body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#app{
+    margin: 0;
+    padding: 0;
+}
+.btn{
+    background-color: #ffcd00;
+    color: white;
+    padding: 20px;
+    margin: 30px;
+    font-size: 25px;
+    font-weight: 600;
+}
+.component{
+    background-color: #ed0a72;
+    color: black;
+    padding: 30px;
+    margin: 40px;
+    font-size: 40px;
+    font-weight: 900;
+}
+.sub-component{
+    background-color: #47a67c;
+    color: white;
+    padding: 10px;
+    margin: 15px;
+    font-size: 20px;
+    font-weight: 500;
+    width: fit-content;
+}
+.outline-red:focus{
+    outline: 2px solid var(--red-100);
+}
+.drop-shadow-sm{
+    filter: drop-shadow(30px 10px 4px #4444dd);
+}

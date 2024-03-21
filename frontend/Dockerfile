@@ -1,24 +1,17 @@
-# Use the official Node.js 14 image as a parent image
 FROM node:14
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Set the working directory in the Docker container
+WORKDIR /app/frontend/
 
-# Copy the current directory contents into the container at /usr/src/app
-COPY package*.json ./
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
 
-# Install any needed packages specified in package.json
 RUN npm install
 
-# Bundle the app source
-COPY . .
+# Copy the rest of the application's code to the working directory
+COPY . ./
 
-# Build the app
-RUN npm run build
+EXPOSE 8080
 
-# Install serve and serve the build
-RUN npm install -g serve
-CMD ["serve", "-s", "build", "-l", "3000"]
-
-# Make port 3000 available to the world outside this container
-EXPOSE 3000
+# The command to run the app using npm
+CMD ["npm", "run", "serve"]

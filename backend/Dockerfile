@@ -1,20 +1,15 @@
-# Use the official Node.js 14 image as a parent image
-FROM node:14
+FROM python:3.8.5
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+ENV PYTHONDONTWRITEBYTECODE 1
 
-# Copy the current directory contents into the container at /usr/src/app
-COPY package*.json ./
+ENV PYTHONUNBUFFERED 1
 
-# Install any needed packages specified in package.json
-RUN npm install
+WORKDIR /app/api
 
-# Bundle the app source
-COPY . .
+COPY requirements.txt ./
 
-# Make port 5000 available to the world outside this container
-EXPOSE 5000
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Run the app when the container launches
-CMD ["node", "server.js"]
+COPY . ./
+
+EXPOSE 8000
