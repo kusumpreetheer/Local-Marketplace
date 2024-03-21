@@ -2,7 +2,7 @@ import React from 'react'
 import CommonHeader from '@/components/shared/CommonHeader'
 import Collection from '@/components/shared/Collection'
 import DummyUsers from '@/constants/dummyUsers'
-import {dummmyRatingReviews} from '@/constants/dummyReviews'
+import { dummmyRatingReviews } from '@/constants/dummyReviews'
 import Link from 'next/link'
 
 const ProfileReviews = () => {
@@ -12,15 +12,15 @@ const ProfileReviews = () => {
 
   return (
     <div>
-        <CommonHeader title='My Reviews'/>
-        <Link href="/profile/reviews/edit">
-          <Collection 
+      <CommonHeader title='My Reviews' />
+        <div className='flex justify-center items-center'>
+          <Collection
             direction="vertical"
             itemType='review'
             items={reviews}
-            hasButton={true} 
+            hasButton={true}
           />
-        </Link>
+        </div>
     </div>
   )
 }

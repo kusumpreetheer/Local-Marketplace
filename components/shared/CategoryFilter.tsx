@@ -1,9 +1,5 @@
 "use client"
 
-// import { getAllCategories } from "@/lib/actions/category.actions";
-// import { ICategory } from "@/lib/database/models/category.model";
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HelpDesk } from "@/public/assets/icons/HelpDesk";
 import { TableBell } from "@/public/assets/icons/TableBell";
@@ -69,7 +65,6 @@ const CategoryFilter = ({onCategorySelect}: {onCategorySelect: (category: string
     "Health": <Clinic />
   }
 
-
   const handleSelectCategory = (category: string) => {
     setSelectedCategory(category);
     if (category == "All") { category = "Recommendations" }
@@ -80,8 +75,7 @@ const CategoryFilter = ({onCategorySelect}: {onCategorySelect: (category: string
     return (
       // each card has the same width
       <div onClick={() => handleSelectCategory(category)}  
-          className={`flex flex-col p-2 pb-6 gap-y-2 rounded-md cursor-pointer min-w-[80px] sm:min-w-[200px] min-h-[110px] sm:min-h-[250px] place-items-center justify-end 
-                    ${category === selectedCategory ? " bg-accent-light" : "bg-primary"}`}>
+          className={`category-filter-card ${category === selectedCategory ? " bg-accent-light bg-opacity-50" : "bg-primary"}`}>
           <div className="text-[32px]">{icons[category]}</div>
         <div className="h-[20%] text-[16px] text-center leading-4 tracking-tighter">{category}</div>
       </div>
@@ -89,7 +83,7 @@ const CategoryFilter = ({onCategorySelect}: {onCategorySelect: (category: string
   }
 
   return (
-    <div className="flex gap-x-2 pr-10 pb-4 overflow-x-auto scrollbar-hide">
+    <div className="flex gap-x-2 pl-4 pr-0 overflow-x-auto scrollbar-hide">
       <FilterCard category="All" />
       {categories.map(category => (
         <FilterCard key={category._id} category={category.name} />

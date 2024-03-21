@@ -7,12 +7,14 @@ const reservations = () => {
   return (
     <div className='wrapper'>
         <CommonHeader title='My Reservations'/>
-        <Collection 
-            direction='vertical' 
-            itemType='reservation' 
-            items={dummyReservations} 
-            hasButton={true}
-        />
+        <div className='flex-center'>
+          <Collection 
+              direction='vertical' 
+              itemType='reservation' 
+              items={dummyReservations} 
+              hasButton={true}
+          />
+        </div>
     </div>
   )
 }

@@ -4,33 +4,36 @@ export interface IService extends Document {
   title: string;
   description?: string;
   location?: string;
-  imageUrl: string;
-  startDateTime: Date;
-  endDateTime: Date;
-  price: number; // Optimized to number for calculations
-  isFree: boolean;
-  url?: string;
-  categoryId: Schema.Types.ObjectId;
-  providerId: Schema.Types.ObjectId;
+  imageUrl: string[];
+  averageRating?: number;
+  totalReviews?: number;
+  providers: { _id: string, name: string }[]; 
+  servicesOffered: Map<string, { title: string; price: string }>;
+  ratingReviewIDs: string[]; 
 }
 
-const ServiceSchema = new Schema<IService>({
+const ServiceSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String },
   location: { type: String },
-  imageUrl: { type: String, required: true },
-  startDateTime: { type: Date, required: true }, // Consider if default Date.now is appropriate
-  endDateTime: { type: Date, required: true }, // Consider if default Date.now is appropriate
-  price: { type: Number, required: true }, // Changed to Number
-  isFree: { type: Boolean, default: false },
-  url: { type: String },
-  categoryId: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
-  providerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  imageUrl: { type: [String], required: true },
+  averageRating: { type: Number, required: false },
+  totalReviews: { type: Number, required: false },
+  providers: [{ type: String, ref: 'User' }],
+  servicesOffered: {
+    type: Map,
+    of: {
+      title: { type: String, required: true },
+      price: { type: String, required: true }
+    }
+  },
+  ratingReviewIDs: [{ type: String, ref: 'RatingReview' }]
 }, { timestamps: true }); // Enables createdAt and updatedAt fields automatically
 
-const Service = models.Service || model<IService>('Service', ServiceSchema);
+const Service = models.Service || model('Service', ServiceSchema);
 
-// Define a TypeScript type for use in API responses or client-side interactions
+// type Service Item is not updated yet
+// currently this is only for the frontend 
 export type ServiceItem = {
   _id: string;
   title: string;

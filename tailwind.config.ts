@@ -23,7 +23,7 @@ module.exports = withUt({
           demo: '#D46534', // 
           DEFAULT: "#e1e0de", // Grey
           dark: '#CDCCC8', // Grey
-          light: '#F4F4F4', // White Grey
+          light: '#fcfcfc', // White Grey
           foreground: '#151515', // Black
         },
         secondary: { // White *
@@ -38,10 +38,10 @@ module.exports = withUt({
           DEFAULT: '#ecebe9',
           foreground: 'hsl(var(--muted-foreground))',
         },
-        accent: { // Yellow *
-          DEFAULT: '#FEC92D', // Yellow
-          dark: '#FEC92D', // Dark Yellow
-          light: '#FFE28D', // Light Yellow
+        accent: { // Blue *
+          DEFAULT: '#758CA3', // Blue
+          dark: '#5D6C7E', // Dark Blue
+          light: '#8CA6C2', // Light Blue
           foreground: '#151515', // Black
         },
         popover: {
@@ -73,7 +73,7 @@ module.exports = withUt({
         serif: ['serif'],
       },
       backgroundImage: {
-        'dotted-pattern': "url('/assets/images/dotted-pattern.png')",
+        // 'dotted-pattern': "url('/assets/images/dotted-pattern.png')",
         'hero-img': "url('/assets/images/hero.png')",
       },
       fontSize: {

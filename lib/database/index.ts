@@ -14,7 +14,7 @@ export const connectToDatabase = async () => {
 
   // Create a new connection
   cached.promise = cached.promise || mongoose.connect(MONGODB_URI, {
-    dbName: 'local marketplace',
+    dbName: 'test_local_marketplace',
     bufferCommands: false,
   })
 

@@ -1,29 +1,18 @@
 import { ServiceItem } from '@/lib/database/models/service.model';
 
-export const dummyServices: ServiceItem[] = [
+export const dummyServices = [
     {
-        _id: "1",
         title: "Wall Painter",
         description: "Hey boiii, I'm a wall painter and I paint asses on walls",
-        image: [
+        location: "Lagos, Nigeria",
+        imageUrl: [
             "https://picsum.photos/seed/picsum/200/300",
             "https://picsum.photos/seed/picsum/200/300",
             "https://picsum.photos/seed/picsum/200/300",
         ],
         averageRating: 3.2,
         totalReviews: 12,
-        serviceProvider: [
-            {
-                userId: "1", 
-                name: "Kanye West", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            },
-            {
-                userId: "2", 
-                name: "Kim Kardashian", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            }
-        ],
+        providers: ["1", "2"],
         servicesOffered: {
             service1: {
                 title: "Painting all walls",
@@ -43,31 +32,19 @@ export const dummyServices: ServiceItem[] = [
             },
         },
         ratingReviewIDs: ["1", "2", "3"],
-
     },
     {
-        _id: "2",
         title: "Service2",
         description: "Description2",
-        image: [
+        location: "Lagos, Nigeria",
+        imageUrl: [
             "https://picsum.photos/seed/picsum/200/300",
             "https://picsum.photos/seed/picsum/200/300",
             "https://picsum.photos/seed/picsum/200/300",
         ],
         averageRating: 3.2,
         totalReviews: 12,
-        serviceProvider: [
-            {
-                userId: "1", 
-                name: "Kanye West", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            },
-            {
-                userId: "2", 
-                name: "Kim Kardashian", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            }
-        ],
+        providers: ["3"],
         servicesOffered: {
             service1: {
                 title: "Service2",
@@ -89,28 +66,17 @@ export const dummyServices: ServiceItem[] = [
         ratingReviewIDs: ["1", "2", "3"],
     },
     {
-        _id: "3",
         title: "Ass Painter",
         description: "Hey boiii, I'm a wall painter and I paint asses on walls",
-        image: [
+        location: "Lagos, Nigeria",
+        imageUrl: [
             "https://picsum.photos/seed/picsum/200/300",
             "https://picsum.photos/seed/picsum/200/300",
             "https://picsum.photos/seed/picsum/200/300",
         ],
         averageRating: 3.2,
         totalReviews: 12,
-        serviceProvider: [
-            {
-                userId: "1", 
-                name: "Kanye West", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            },
-            {
-                userId: "2", 
-                name: "Kim Kardashian", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            }
-        ],
+        providers: ["1"],
         servicesOffered: {
             service1: {
                 title: "Painting all walls",
@@ -133,28 +99,17 @@ export const dummyServices: ServiceItem[] = [
 
     },
     {
-        _id: "4",
         title: "Me Painter",
         description: "Hey boiii, I'm a wall painter and I paint asses on walls",
-        image: [
+        location: "Lagos, Nigeria",
+        imageUrl: [
             "https://picsum.photos/seed/picsum/200/300",
             "https://picsum.photos/seed/picsum/200/300",
             "https://picsum.photos/seed/picsum/200/300",
         ],
         averageRating: 3.2,
         totalReviews: 12,
-        serviceProvider: [
-            {
-                userId: "1", 
-                name: "Kanye West", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            },
-            {
-                userId: "2", 
-                name: "Kim Kardashian", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            }
-        ],
+        providers: ["2"],
         servicesOffered: {
             service1: {
                 title: "Painting all walls",

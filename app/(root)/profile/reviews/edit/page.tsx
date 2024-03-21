@@ -4,6 +4,9 @@ import CommonHeader from "@/components/shared/CommonHeader"
 import dummmyRatingReviews from "@/constants/dummyReviews";
 import dummyUsers from "@/constants/dummyUsers";
 import React, { useState } from "react";
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+import { Rating } from '@mui/material';
 
 const MyReview = () => {
 
@@ -17,9 +20,31 @@ const MyReview = () => {
         setRating(parseInt(e.target.value));
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log(rating);
+    const marks = [
+        {
+          value: 1,
+          label: '1⭐',
+        },
+        {
+          value: 2,
+          label: '2⭐',
+        },
+        {
+          value: 3,
+          label: '3⭐',
+        },
+        {
+          value: 4,
+          label: '4⭐',
+        },
+        {
+          value: 5,
+          label: '5⭐',
+        }
+      ];
+      
+    function valuetext(value: number) {
+    return `${value} C`;
     }
 
     return (
@@ -46,7 +71,16 @@ const MyReview = () => {
                 <div>
                     <h3>Rating</h3>
                     <p>{reviews[0].rating}</p>
-                    <input type="range" min="1" max="5" value={rating} onChange={hangleRatingChange}/>
+                    <Slider
+                        aria-label="Custom marks"
+                        defaultValue={3}
+                        getAriaValueText={valuetext}
+                        step={1}
+                        valueLabelDisplay="auto"
+                        marks={marks}
+                        min={1}
+                        max={5}
+                    />
                 </div>
                 <div>
                     <h3>Review</h3>
