@@ -1,30 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Instructions to run your schema and seeding scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Path to schema script: ```lib > database > models ``` 
 
-## Learn More
+Path to seeding script: ```app > api > seed > route.ts ```
 
-To learn more about Next.js, take a look at the following resources:
+(A copy of the seeding and schema script is attached in the zip file)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Can curl be used?
+Since clerk is being employed to authenticate the application, it is protecting the api route. Instead in order to populate the user information, the application can be run using ``` npm run dev```, in the home page of the front-end, 'seed data' button can be pressed. The code for this button can be found in ```lib > SeedButton.tsx ```, when the button is pressed, it would trigger the api seed, this api call is calling ```app > api > seed > route.ts ```. This function receives a post request it would delete and create all users.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## How to delete and create users?
+It can be done using ```lib > actions > ``` where service and users can be edited.
+
+## How to connect to database?
+database can be accessed and connected to using the file ```lib > database > index.ts ``` contains the script. But it cannot be used since we might need access to .env.local
