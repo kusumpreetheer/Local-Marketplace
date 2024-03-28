@@ -32,7 +32,7 @@ export const dummyUsers: UserItem[] = [
     {
         _id: "3",
         clerkId: "clerkId3",
-        imageUrl: "http://example.com/profile",
+        imageUrl: "https://picsum.photos/id/237/200/300",
         email: "example3@example.com",
         website: "enyaumanzor.com",
         username: "username3",

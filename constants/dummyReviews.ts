@@ -7,7 +7,7 @@ export const dummmyRatingReviews: RatingReviewItem[] = [
             _id: "1",
             title: "Service 1",
             provider: "Mollalem",
-            imageURL: "https://picsum.photos/id/237/200/300"
+            imageUrl: "https://picsum.photos/id/237/200/300"
         },
         clientID: "1",
         rating: 3,
@@ -26,7 +26,7 @@ export const dummmyRatingReviews: RatingReviewItem[] = [
             _id: "2",
             title: "Service 2",
             provider: "Enya",
-            imageURL: "https://picsum.photos/id/237/200/300"
+            imageUrl: "https://picsum.photos/id/237/200/300"
         },
         clientID: "1",
         rating: 5,
@@ -45,7 +45,7 @@ export const dummmyRatingReviews: RatingReviewItem[] = [
             _id: "3",
             title: "Service 3",
             provider: "Mollalem",
-            imageURL: "https://picsum.photos/id/237/200/300"
+            imageUrl: "https://picsum.photos/id/237/200/300"
         },
         clientID: "3",
         rating: 4,
@@ -64,7 +64,7 @@ export const dummmyRatingReviews: RatingReviewItem[] = [
             _id: "1",
             title: "Service 1",
             provider: "Mollalem",
-            imageURL: "https://picsum.photos/id/237/200/300"
+            imageUrl: "https://picsum.photos/id/237/200/300"
         },
         clientID: "4",
         rating: 2,

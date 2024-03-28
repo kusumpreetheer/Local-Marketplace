@@ -19,29 +19,19 @@ export type UpdateUserParams = {
 
 
 // ====== SERVICE PARAMS
-// export type CreateServiceParams = {
-//   userId: string
-//   service: {
-//     title: string
-//     description: string
-//     location: string
-//     imageUrl: string
-//     startDateTime: Date
-//     endDateTime: Date
-//     categoryId: string
-//     price: string
-//     isFree: boolean
-//     url: string
-//   }
-//   path: string
-// }
-
 export type CreateServiceParams = {
-  title: string;
-  imageUrl: string[];
-  providers: string[]; 
-  servicesOffered: Map<string, { title: string; price: string }>;
-  ratingReviewIDs: string[]; 
+  userId: string
+  service: {
+    title: string
+    description: string
+    location: string
+    imageUrl: string
+    categoryId: string
+    price: string
+    isFree: boolean
+    url: string
+  }
+  path: string
 }
 
 export type UpdateServiceParams = {
@@ -72,6 +62,8 @@ export type GetAllServicesParams = {
   category: string
   limit: number
   page: number
+  rating: number
+  distance: number
 }
 
 export type GetServicesByUserParams = {
@@ -142,7 +134,7 @@ export type GetOrdersByUserParams = {
   page: string | number | null
 }
 
-// ====== URL QUERY PARAMS
+// ====== Url QUERY PARAMS
 export type UrlQueryParams = {
   params: string
   key: string

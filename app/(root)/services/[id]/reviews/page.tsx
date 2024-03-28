@@ -11,7 +11,7 @@ const Reviews = () => {
         {
             user: {
               _id: "1",
-              profileURL: "http://example.com/profile",
+              profileUrl: "http://example.com/profile",
               firstName: "Drew",
               lastName: "Phillips",
             },
@@ -21,7 +21,7 @@ const Reviews = () => {
         {
             user: {
               _id: "2",
-              profileURL: "http://example.com/profile",
+              profileUrl: "http://example.com/profile",
               firstName: "Ky",
               lastName: "Newman",
             },
@@ -31,7 +31,7 @@ const Reviews = () => {
         {
             user: {
               _id: "3",
-              profileURL: "http://example.com/profile",
+              profileUrl: "http://example.com/profile",
               firstName: "Josiah",
               lastName: "",
             },
@@ -41,7 +41,7 @@ const Reviews = () => {
         {
             user: {
               _id: "4",
-              profileURL: "http://example.com/profile",
+              profileUrl: "http://example.com/profile",
               firstName: "Drew",
               lastName: "Phillips",
             },
@@ -51,7 +51,7 @@ const Reviews = () => {
         {
             user: {
               _id: "5",
-              profileURL: "http://example.com/profile",
+              profileUrl: "http://example.com/profile",
               firstName: "Ky",
               lastName: "Newman",
             },
@@ -61,7 +61,7 @@ const Reviews = () => {
         {
             user: {
               _id: "6",
-              profileURL: "http://example.com/profile",
+              profileUrl: "http://example.com/profile",
               firstName: "Josiah",
               lastName: "",
             },
@@ -82,7 +82,7 @@ const Reviews = () => {
                         <div key={index} className="p-4">
                             <div className='flex'>
                                 <div className="w-7 h-7 mr-3 border border-black rounded-full flex items-center justify-center">
-                                    <Image priority  src={review.user.profileURL} alt="Profile" width={28} height={28} className="rounded-full" />
+                                    <Image priority  src={review.user.profileUrl} alt="Profile" width={28} height={28} className="rounded-full" />
                                 </div>
                                 <h3 className="text-lg font-medium">{review.user.firstName} {review.user.lastName}</h3>
                             </div>

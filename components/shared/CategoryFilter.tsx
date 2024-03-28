@@ -24,35 +24,6 @@ const CategoryFilter = ({onCategorySelect}: {onCategorySelect: (category: string
   ]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-  useEffect(() => {
-    // const getCategories = async () => {
-    //   const categoryList = await getAllCategories();
-
-    //   categoryList && setCategories(categoryList as ICategory[])
-    // }
-
-    // getCategories();
-  }, [])
-
-  // const onSelectCategory = (category: string) => {
-  //     let newUrl = '';
-
-  //     if(category && category !== 'All') {
-  //       newUrl = formUrlQuery({
-  //         params: searchParams.toString(),
-  //         key: 'category',
-  //         value: category
-  //       })
-  //     } else {
-  //       newUrl = removeKeysFromQuery({
-  //         params: searchParams.toString(),
-  //         keysToRemove: ['category']
-  //       })
-  //     }
-
-  //     router.push(newUrl, { scroll: false });
-  // }
-
   const icons: { [key: string]: JSX.Element } = {
     "All": <TableBell />,
     "Home": <Tools />,
@@ -75,15 +46,15 @@ const CategoryFilter = ({onCategorySelect}: {onCategorySelect: (category: string
     return (
       // each card has the same width
       <div onClick={() => handleSelectCategory(category)}  
-          className={`category-filter-card ${category === selectedCategory ? " bg-accent-light bg-opacity-50" : "bg-primary"}`}>
-          <div className="text-[32px]">{icons[category]}</div>
-        <div className="h-[20%] text-[16px] text-center leading-4 tracking-tighter">{category}</div>
+          className={`hover-scale category-filter-card ${category === selectedCategory ? "bg-secondary" : "bg-transparent hover:bg-secondary-light"}`}>
+          <div className="h2-bold">{icons[category]}</div>
+        <div className="p6-regular h-[20%] text-[16px] text-center leading-4 tracking-wide">{category}</div>
       </div>
     )
   }
 
   return (
-    <div className="flex gap-x-2 pl-4 pr-0 overflow-x-auto scrollbar-hide">
+    <div className="flex gap-x-2 pl-4 pr-0 pb-2 pt-3 overflow-x-auto scrollbar-hide">
       <FilterCard category="All" />
       {categories.map(category => (
         <FilterCard key={category._id} category={category.name} />

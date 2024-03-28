@@ -9,7 +9,7 @@ import SeedButton from "@/lib/SeedButton"
 
 const HomeHeader = () => {
     return (
-        <header className="w-full bg-primary sticky top-0 z-50 p-5">
+        <header className="w-full sticky top-0 z-50 px-4 pt-4 md:p-5">
             <div className="wrapper flex items-center justify-between">
 
                 {/* Logo */}
@@ -26,9 +26,6 @@ const HomeHeader = () => {
                         <div>MARKETPLACE</div>
                     </div>
                 </Link>
-
-                {/* Seeding Button */}
-                <SeedButton />
 
                 {/* Signin or "Create & Profile" */}
                 <div className="flex gap-3">
@@ -49,7 +46,7 @@ const HomeHeader = () => {
                                 <Message className="text-[26px]" />
                             </div>
                             {/* Link to profile page */}       
-                            <div className="hidden md:flex items-center w-8 h-8 m-2">
+                            <div className="hidden md:flex items-center w-8 h-8 m-2 hover-scale">
                                 <ProfileButton />
                             </div>   
                         </div>
@@ -57,7 +54,7 @@ const HomeHeader = () => {
 
                     {/*  when signed out */}
                     <SignedOut>
-                        <Button asChild className="rounded-full bg-primary/70" size="lg">
+                        <Button asChild variant="outline" className="rounded-md" size="lg">
                             <Link href="/sign-in">
                                 Sign in
                             </Link>

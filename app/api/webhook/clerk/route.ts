@@ -69,61 +69,40 @@ export async function POST(req: Request) {
       username: username || first_name + last_name,
       firstName: first_name,
       lastName: last_name,
-      imageURL: image_url,
+      imageUrl: image_url,
     };
-
-    console.log('Creating a new user:', user);
 
     // Create a new user in the database
     const newUser = await createUser(user);
 
-    console.log('User created:', newUser);
-
     // Update the user's _id in MongoDB to the user's publicMetadata of Clerk
     if (newUser) {
-      console.log('Updating user metadata in Clerk:', newUser._id);
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
           userId: newUser._id,
         },
       });
     }
-
-    console.log('User metadata updated.');
-
     return NextResponse.json({ message: 'OK', user: newUser });
   }
 
   // Update the user in OUR database, whenever a user is updated in Clerk
   if (eventType === 'user.updated') {
     const { id, image_url, first_name, last_name, username } = evt.data;
-
     const user = {
       firstName: first_name,
       lastName: last_name,
       username: username!,
-      imageURL: image_url,
+      imageUrl: image_url,
     };
-
-    console.log('Updating user:', user);
-
     const updatedUser = await updateUser(id, user);
-
-    console.log('User updated:', updatedUser);
-
     return NextResponse.json({ message: 'OK', user: updatedUser });
   }
 
   // Delete the user in OUR database, whenever a user is deleted in Clerk
   if (eventType === 'user.deleted') {
     const { id } = evt.data;
-
-    console.log('Deleting user:', id);
-
     const deletedUser = await deleteUser(id!);
-
-    console.log('User deleted:', deletedUser);
-
     return NextResponse.json({ message: 'OK', user: deletedUser });
   }
 

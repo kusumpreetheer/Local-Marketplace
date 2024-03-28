@@ -39,7 +39,7 @@ const RatingReview = models.RatingReview || model('RatingReview', RatingReviewSc
 // Define a TypeScript type for use in API responses or client-side interactions
 export type RatingReviewItem = {
   _id: string;
-  service: { _id: string; title: string; provider: string; imageURL: string };
+  service: { _id: string; title: string; provider: string; imageUrl: string };
   clientID: string;
   rating: number;
   review: string;

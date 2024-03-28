@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { dummyServices } from '@/constants/dummyServices';
-import { dummyUsers } from '@/constants/dummyUsers';
-import { ServiceItem } from '@/lib/database/models/service.model';
 import Collection from '@/components/shared/Collection';
 import { SearchParamProps } from '@/types'
 import Image from 'next/image'
@@ -12,145 +11,148 @@ import { LocationPin } from '@/public/assets/icons/LocationPin';
 import { Globe } from '@/public/assets/icons/Globe';
 import ServiceReviews from '@/components/shared/ServiceReviews';
 import CommonHeader from '@/components/shared/CommonHeader';
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
-// import 'swiper/css/effect-coverflow';
+import { Slash } from "lucide-react"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import ServiceTable from '@/components/shared/ServiceTable/ServiceTable';
+// import { getServiceById } from '@/lib/actions/service.actions';
 
 const ServicePost = async ({ params: { id }, searchParams }: SearchParamProps) => {
 
-  // dummy for now, later fetch from the database
+  // const service = await getServiceById(id);
+  const service = dummyServices.find((service) => service?._id === id);
 
-  const service = dummyServices[Number(id)-1] as ServiceItem;
-  console.log("service: ", service);
-  
-  const serviceProvider = dummyUsers.find(user => user._id === service.serviceProvider[0].userId);
+  const BreadcrumbBar = () => {
+    return (
+      <div className='py-4'>
+        <Breadcrumb >
+          <BreadcrumbList className='p5-regular'>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>
+              <Slash />
+            </BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/" >{service.category.name}</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>
+              <Slash />
+            </BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <BreadcrumbPage>{service?.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+    )
+  }
 
   return (
     <>
-      {/* Header */}
-      <section>
-        <CommonHeader title={service.title} savedButton={true} />
-      </section>
+      <section className=''>
+        <CommonHeader title={service?.title} savedButton={true} />
+        <div className='wrapper'>
+          <div className='px-8 md:pt-4'>
+            <BreadcrumbBar />
+            {/* Provider Info */}
+            <section className="flex justify-center bg-dotted-pattern bg-contain pb-4 md:py-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-7xl gap-y-4 gap-x-4">
+                {/* hero image */}
+                <div className='w-full h-48 md:h-80 flex justify-center overflow-hidden rounded-md'>
+                  <Image
+                    src={service?.imageUrl}
+                    alt="hero image"
+                    width={1000}
+                    height={1000}
+                    className='object-cover '
+                  />
+                </div>
+                {/* Details */}
+                <div className="w-full md:h-80 flex justify-evenly flex-col gap-1 bg-primary px-4 rounded-md">
+                  {/* image, name, rating */}
+                  <div className="flex-between my-4 mx-2">
+                    <div className='flex-between gap-x-3'>
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center overflow-hidden">
+                        <Image
+                          priority
+                          src={service?.provider?.imageUrl ?? ''}
+                          alt="Profile"
+                          width={500}
+                          height={500}
+                        />
+                      </div>
+                      <p className="h5-medium text-end">{service?.provider?.firstName} {service?.provider?.lastName}</p>
+                    </div>
+                    {/* Rating & Reviews */}
+                    <div className="flex items-center">
+                      <StarEmpty className="w-4 h-4 mx-2" />
+                      <p className="">{service?.averageRating}</p>
+                      <p className="text-gray-500"> ({service?.totalReviews})</p>
+                    </div>
+                  </div>
+                  {/* Contact Info */}
+                  <div className='flex flex-col items-start justify-center w-full gap-y-2 px-4 pb-4'>
+                    {/* Phone */}
+                    <div className="flex items-center gap-x-6">
+                      <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
+                        <Phone className="w-5 h-5" />
+                      </div>
+                      <a href={`tel:$`} className="text-black">{service?.provider?.contactNumber}</a>
+                    </div>
+                    {/* Email */}
+                    <div className="flex items-center gap-x-6">
+                      <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
+                        <Mail className="w-5 h-5" />
+                      </div>
+                      <a href={`mailto:${service?.provider?.email}`} className="text-black">{service?.provider?.email}</a>
+                    </div>
+                    {/* Location */}
+                    <div className="flex items-center gap-x-6">
+                      <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
+                        <LocationPin className="w-5 h-5" />
+                      </div>
+                      <p className="">{service?.provider?.location}</p>
+                    </div>
+                    {/* Website */}
+                    <div className="flex items-center gap-x-6">
+                      <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
+                        <Globe className="w-5 h-5" />
+                      </div>
+                      <a href={'{service?.provider?.website}'} className="text-black" target="_blank" rel="noopener noreferrer">{service?.provider?.website}</a>
+                    </div>
+                    {/* Service Description (for desktop) */}
+                    <div className='mx-2 md:my-2'>
+                      <p className='text-m'>{service?.description}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
 
-      {/* Provider Info */}
-      <section className="justify-center mx-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-7xl ">
+            {/* Services Offered */}
+            <ServiceTable service={service} />
 
-          <div className='h-48 overflow-auto my-4 relative rounded-lg'>
-            <div className="absolute inset-0 bg-white">
-              {/* <Swiper
-                  
-                  spaceBetween={50}
-                  slidesPerView={3}
-                >
-                  <SwiperSlide>Slide 1</SwiperSlide>
-                  <SwiperSlide>Slide 2</SwiperSlide>
-                  <SwiperSlide>Slide 3</SwiperSlide>
-                  <SwiperSlide>Slide 4</SwiperSlide>
-                </Swiper>
-                 */}
-              <Image
-                src={service.image[0]}
-                alt="hero image"
-                layout="fill"
-                objectFit="contain"
+            {/* Reviews */}
+            <ServiceReviews service={service} />
+          </div>
+
+          {/* Services with the same category */}
+          <section className="my-8 flex flex-col md:gap-y-0">
+            <h2 className="h4-semibold px-8">Related Services</h2>
+            <div className='pl-4'>
+              <Collection
+                direction="horizontal"
+                itemType="service"
+                items={dummyServices}
+                nextPrevButton={true}
               />
             </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-4"> {/* Add gap-4 for spacing between items */}
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 border border-black rounded-full flex items-center justify-center">
-              <Image priority src={serviceProvider?.imageURL ?? ''} alt="Profile" width={40} height={40} className="rounded-full" />
-            </div>
-            <p className="">{serviceProvider?.firstName} {serviceProvider?.lastName}</p>
-          </div>
-          <section>
-            <div className="flex items-center gap-2">
-              <StarEmpty className="w-5 h-5" />
-              <p className="">{service.averageRating}</p>
-              <p className="text-gray-500">({service.totalReviews})</p>
-            </div>
           </section>
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
-              <Phone className="w-5 h-5" />
-            </div>
-            <a href={`tel:$`} className="text-black">{serviceProvider?.contactNumber}</a>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
-              <Mail className="w-5 h-5" />
-            </div>
-            <a href={`mailto:${serviceProvider?.email}`} className="text-black">{serviceProvider?.email}</a> {/* Link email for email */}
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
-              <LocationPin className="w-5 h-5" />
-            </div>
-            <p className="">{serviceProvider?.location}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
-              <Globe className="w-5 h-5" />
-            </div>
-            <a href={'{serviceProvider?.website}'} className="text-black" target="_blank" rel="noopener noreferrer">{serviceProvider?.website}</a> {/* Link website and open in new tab */}
-          </div>
+
         </div>
-
-        <div className='my-7'>
-          <p>{service.description}</p>
-        </div>
-      </section>
-
-      {/* Services Offered */}
-      <section className="wrapper flex flex-col gap-8 md:gap-10">
-        <h2 className="h2-bold">Services Offered</h2>
-        <div className="w-full overflow-auto rounded-lg shadow-md">
-          <table className="w-full min-w-full text-left table-auto">
-            <thead>
-              <tr className="bg-gray-500 text-gray-100 text-sm font-medium">
-                <th className="px-4 py-2">Service</th>
-                <th className="px-4 py-2">Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.keys(service.servicesOffered).map((serviceKey, index) => (
-                <tr key={index} className="bg-gray-100 text-gray-600 text-sm">
-                  <td className="px-4 py-2">{service.servicesOffered[serviceKey as keyof typeof service.servicesOffered].title}</td>
-                  <td className="px-4 py-2">${service.servicesOffered[serviceKey as keyof typeof service.servicesOffered].price}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Reviews */}
-      <ServiceReviews service={service} />
-
-      {/* Services with the same category */}
-      <section className="wrapper my-8 flex flex-col gap-8 md:gap-12">
-        <h2 className="h2-bold">Related Services</h2>
-
-        <Collection
-          selectedCategory={"All_Services"}
-          title={""}
-        //   data={relatedServices?.data}
-        //   emptyTitle="No Events Found"
-        //   emptyStateSubtext="Come back later"
-        //   collectionType="All_Events"
-        //   limit={3}
-        //   page={searchParams.page as string}
-        //   totalPages={relatedServices?.totalPages}
-        />
       </section>
     </>
   )
 }
 
-export default ServicePost;
+export default ServicePost

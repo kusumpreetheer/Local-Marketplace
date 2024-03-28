@@ -1,29 +1,65 @@
 import { ServiceItem } from '@/lib/database/models/service.model';
 
-export const dummyServices: ServiceItem[] = [
+export const dummyServices: any[] = [
+    {
+        _id: "65ff3eee12b684b7c98f579c",
+        title: "Guitar Tutor",
+        description: "I am a guitar tutor and I teach guitar to people who want to learn guitar",
+        imageUrl: "https://picsum.photos/seed/picsum/700/300",
+        url: "https://www.jacobchak.com",
+        location: "123",
+        provider: {
+            _id: "65fe9a5396346912b7163251",
+            firstName: "Jacob",
+            lastName: "Chak",
+            location: "Calgary, AB",
+            imageUrl: "https://utfs.io/f/10e17672-4064-441d-a5c1-7527fe2d34b6-5482fr.jpg",
+            contactNumber: "587 587 5877",
+            email: "jacobchakkaiho@gmail.com",
+            website: "jacobchak.com",
+        },
+        servicesOffered: {
+            lesson1: {
+                title: "Guitar Tutor",
+                price: "100",
+            },
+            lesson2: {
+                title: "Guitar Tutor",
+                price: "200",
+            },
+            lesson3: {
+                title: "Guitar Tutor",
+                price: "300",
+            },
+            lesson4: {
+                title: "Guitar Tutor",
+                price: "400",
+            },
+        },
+        averageRating: 3.2,
+        totalReviews: 12,
+        ratingReviewIDs: [],
+        category: { _id: "65fe8fbcfb55d63b100a4d28", name: "Music" },
+        bookmarked: true,
+    },
+
     {
         _id: "1",
         title: "Wall Painter",
         description: "Hey boiii, I'm a wall painter and I paint asses on walls",
-        image: [
-            "https://picsum.photos/seed/picsum/200/300",
-            "https://picsum.photos/seed/picsum/200/300",
-            "https://picsum.photos/seed/picsum/200/300",
-        ],
+        imageUrl: "https://picsum.photos/seed/picsum/700/300",
         averageRating: 3.2,
         totalReviews: 12,
-        serviceProvider: [
-            {
-                userId: "1", 
-                name: "Kanye West", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            },
-            {
-                userId: "2", 
-                name: "Kim Kardashian", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            }
-        ],
+        provider: {
+            _id: "65fe9a5396346912b7163251",
+            firstName: "Loser",
+            lastName: "Boy",
+            location: "Calgary, Alberta",
+            imageUrl: "https://picsum.photos/200/300",
+            contactNumber: "587 587 5877",
+            email: "123",
+            website: "123",
+        },
         servicesOffered: {
             service1: {
                 title: "Painting all walls",
@@ -43,31 +79,26 @@ export const dummyServices: ServiceItem[] = [
             },
         },
         ratingReviewIDs: ["1", "2", "3"],
-
+        category: { _id: "65fe8fbcfb55d63b100a4d28", name: "Home" },
+        bookmarked: false,
     },
     {
         _id: "2",
         title: "Service2",
         description: "Description2",
-        image: [
-            "https://picsum.photos/seed/picsum/200/300",
-            "https://picsum.photos/seed/picsum/200/300",
-            "https://picsum.photos/seed/picsum/200/300",
-        ],
+        imageUrl: "https://picsum.photos/seed/picsum/500/300",
         averageRating: 3.2,
         totalReviews: 12,
-        serviceProvider: [
-            {
-                userId: "1", 
-                name: "Kanye West", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            },
-            {
-                userId: "2", 
-                name: "Kim Kardashian", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            }
-        ],
+        provider: {
+            _id: "65fe9a5396346912b7163251",
+            firstName: "Jacob",
+            lastName: "Chak",
+            location: "123",
+            imageUrl: "https://utfs.io/f/10e17672-4064-441d-a5c1-7527fe2d34b6-5482fr.jpg",
+            contactNumber: "123",
+            email: "123",
+            website: "123",
+        },
         servicesOffered: {
             service1: {
                 title: "Service2",
@@ -87,30 +118,26 @@ export const dummyServices: ServiceItem[] = [
             },
         },
         ratingReviewIDs: ["1", "2", "3"],
+        category: { _id: "65fe8fbcfb55d63b100a4d28", name: "Music" },
+        bookmarked: true,
     },
     {
         _id: "3",
         title: "Ass Painter",
         description: "Hey boiii, I'm a wall painter and I paint asses on walls",
-        image: [
-            "https://picsum.photos/seed/picsum/200/300",
-            "https://picsum.photos/seed/picsum/200/300",
-            "https://picsum.photos/seed/picsum/200/300",
-        ],
+        imageUrl: "https://picsum.photos/seed/picsum/200/300",
         averageRating: 3.2,
         totalReviews: 12,
-        serviceProvider: [
-            {
-                userId: "1", 
-                name: "Kanye West", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            },
-            {
-                userId: "2", 
-                name: "Kim Kardashian", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            }
-        ],
+        provider: {
+            _id: "65fe9a5396346912b7163251",
+            firstName: "Jacob",
+            lastName: "Chak",
+            location: "123",
+            imageUrl: "https://utfs.io/f/10e17672-4064-441d-a5c1-7527fe2d34b6-5482fr.jpg",
+            contactNumber: "123",
+            email: "123",
+            website: "123",
+        },
         servicesOffered: {
             service1: {
                 title: "Painting all walls",
@@ -130,31 +157,26 @@ export const dummyServices: ServiceItem[] = [
             },
         },
         ratingReviewIDs: ["1", "2", "3"],
-
+        category: { _id: "65fe8fbcfb55d63b100a4d28", name: "Home" },
+        bookmarked: false,
     },
     {
         _id: "4",
         title: "Me Painter",
         description: "Hey boiii, I'm a wall painter and I paint asses on walls",
-        image: [
-            "https://picsum.photos/seed/picsum/200/300",
-            "https://picsum.photos/seed/picsum/200/300",
-            "https://picsum.photos/seed/picsum/200/300",
-        ],
+        imageUrl: "https://picsum.photos/seed/picsum/200/300",
         averageRating: 3.2,
         totalReviews: 12,
-        serviceProvider: [
-            {
-                userId: "1", 
-                name: "Kanye West", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            },
-            {
-                userId: "2", 
-                name: "Kim Kardashian", 
-                imageURL: "https://picsum.photos/seed/picsum/200/300"
-            }
-        ],
+        provider: {
+            _id: "65fe9a5396346912b7163251",
+            firstName: "Jacob",
+            lastName: "Chak",
+            location: "123",
+            imageUrl: "https://utfs.io/f/10e17672-4064-441d-a5c1-7527fe2d34b6-5482fr.jpg",
+            contactNumber: "123",
+            email: "123",
+            website: "123",
+        },
         servicesOffered: {
             service1: {
                 title: "Painting all walls",
@@ -174,7 +196,8 @@ export const dummyServices: ServiceItem[] = [
             },
         },
         ratingReviewIDs: ["1", "2", "3"],
-
+        category: { _id: "65fe8fbcfb55d63b100a4d28", name: "Home" },
+        bookmarked: true,
     }
 ];
 

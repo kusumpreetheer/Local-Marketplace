@@ -4,12 +4,12 @@ import { dummyUsers } from '@/constants/dummyUsers'
 import { dummyServices } from '@/constants/dummyServices'
 import { BookmarkFilled } from '@/public/assets/icons/BookmarkFilled'
 import { SearchParamProps } from '@/types'
-import { UserButton, auth } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import CommonHeader from '@/components/shared/CommonHeader'
 import { Pen } from '@/public/assets/icons/Pen'
+import { auth } from '@clerk/nextjs'
 
 const ProfilePage = async ({ searchParams }: SearchParamProps) => {
   const { sessionClaims } = auth();
@@ -21,31 +21,21 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
   const ordersPage = Number(searchParams?.ordersPage) || 1;
   const eventsPage = Number(searchParams?.eventsPage) || 1;
 
-  // const orders = await getOrdersByUser({ userId, page: ordersPage})
-
-  // const orderedEvents = orders?.data.map((order: IOrder) => order.event) || [];
-  // const organizedEvents = await getEventsByUser({ userId, page: eventsPage })
-
   return (
     <>
-    <div className='lg:wrapper'>
-      <div className="flex justify-between items-center py-4 pr-4">
-        {/* Common Header */}
-        <CommonHeader title='' />
-        {/* Sign Out Button */}
-        <UserButton afterSignOutUrl="/"/>
-      </div>
+      <CommonHeader title='' signOutButton={true}/>
 
       {/* Profile Name */}
-      <section className="bg-primary-50 bg-dotted-pattern bg-cover bg-center lg:py-10">
+      <section className="bg-primary-50 bg-dotted-pattern bg-cover bg-center pt-4 pb-2 lg:pt-6 lg:pb-4">
         <div className="wrapper flex flex-col items-center justify-center sm:justify-between">
           {/* profile image */}
           <div className="w-40 h-40 border border-black rounded-full flex items-center justify-center overflow-hidden">
             <Image 
-              src={profile.imageURL}
+              src={profile.imageUrl}
               alt={profile.username}
               width={500}
               height={500}
+              priority
             />
           </div>
           {/* name */}
@@ -54,18 +44,18 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
         </div>
       </section>
 
-      <section className="flex gap-x-2">
+      <section className="flex gap-x-2 mt-3">
         <div className='wrapper flex items-center justify-center gap-x-4'>
           {/* Reviews */}
           <Link href="/profile/reviews">
-            <div className="w-14 h-14 border border-black rounded-full flex items-center justify-center">
+            <div className="flex-center w-14 h-14 rounded-full bg-primary text-grey-600 hover:bg-accent/60 transition-all duration-300 ease-in-out">
               <Pen className='w-9 h-9'/>
             </div>
           </Link>
 
           {/* Saved */}
           <Link href="/profile/saved">
-            <div className="w-14 h-14 border border-black rounded-full flex items-center justify-center">
+            <div className="flex-center w-14 h-14 rounded-full bg-primary text-grey-600 hover:bg-accent/60 transition-all duration-300 ease-in-out">
               <BookmarkFilled className='w-9 h-9'/>
             </div>
           </Link>
@@ -73,7 +63,7 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
       </section>
 
       {/* My Reservations */}
-      <section className="wrapper my-5 pl-4">
+      <section className="wrapper my-5">
           <Collection 
             title='My Reservations'
             direction='horizontal'
@@ -87,7 +77,7 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
       </section>
       
       {/* My Services */}
-      <section className="wrapper my-5 pl-4">
+      <section className="wrapper my-5">
         <Collection 
           title='My Services'
           direction='horizontal'
@@ -99,8 +89,6 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
           nextPrevButton={true}
         />
       </section>
-    </div>
-
     </>
   )
 }

@@ -19,16 +19,23 @@ module.exports = withUt({
     },
     extend: {
       colors: {
-        primary: { // Grey *
-          demo: '#D46534', // 
-          DEFAULT: "#e1e0de", // Grey
-          dark: '#CDCCC8', // Grey
-          light: '#fcfcfc', // White Grey
-          foreground: '#151515', // Black
+        primary: { // blueish grey
+          dark: '#A4B5D1',
+          DEFAULT: "#EDF0F5", 
+          light: '#F8FBFF', 
+          foreground: '#23221E', 
         },
-        secondary: { // White *
-          DEFAULT: '#EAEBEB', // White
-          foreground: '#151515', // Black
+        secondary: { // beige
+          dark: '#CCB897', 
+          DEFAULT: '#F4E1C1', 
+          light: '#F6E1BC', 
+          foreground: '#23221E', 
+        },
+        accent: { 
+          DEFAULT: '#ECAA20', // orange
+          dark: '#D18E03', // dark orange
+          light: '#FBCB6E', // dark orange
+          foreground: '#23221E', // Black
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
@@ -37,12 +44,6 @@ module.exports = withUt({
         muted: {
           DEFAULT: '#ecebe9',
           foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: { // Blue *
-          DEFAULT: '#758CA3', // Blue
-          dark: '#5D6C7E', // Dark Blue
-          light: '#8CA6C2', // Light Blue
-          foreground: '#151515', // Black
         },
         popover: {
           DEFAULT: 'hsl(var(--popover))',
@@ -76,57 +77,10 @@ module.exports = withUt({
         // 'dotted-pattern': "url('/assets/images/dotted-pattern.png')",
         'hero-img': "url('/assets/images/hero.png')",
       },
-      fontSize: {
-        '3xs' : ['0.5rem', {
-          lineHeight: '0.75rem',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        }],
-        '2xs': ['0.625rem', {
-          lineHeight: '0.75rem',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        }],
-        'xs': ['0.75rem', {
-          lineHeight: '1rem',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        }],
-        's': ['0.875rem', {
-          lineHeight: '1.25rem',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        }],
-        'm': ['1rem', {
-          lineHeight: '1.5rem',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        }],
-        'l': ['1.125rem', {
-          lineHeight: '1.75rem',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        }],
-        'xl': ['1.5rem', {
-          lineHeight: '1.75rem',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        }],
-        '2xl': ['1.75rem', {
-          lineHeight: '1.75rem',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        }],
-        '3xl': ['1.875rem', {
-          lineHeight: '2.25rem',
-          letterSpacing: '-0.02em',
-          fontWeight: '400',
-        }],
-      },
       screens: {
         'xs': '380px', // mobile SE not included
-        'sm': '640px', // tablet
-        'md': '768px', 
+        'sm': '640px', 
+        'md': '768px', // tablet
         'lg': '1024px', // desktop
         'xl': '1280px',
         '2xl': '1536px',
