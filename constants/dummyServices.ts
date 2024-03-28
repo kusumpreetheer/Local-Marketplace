@@ -6,17 +6,17 @@ export const dummyServices: any[] = [
         title: "Guitar Tutor",
         description: "I am a guitar tutor and I teach guitar to people who want to learn guitar",
         imageUrl: "https://picsum.photos/seed/picsum/700/300",
-        url: "https://www.jacobchak.com",
+        url: "https://www.chris.com",
         location: "123",
         provider: {
             _id: "65fe9a5396346912b7163251",
-            firstName: "Jacob",
-            lastName: "Chak",
+            firstName: "Chris",
+            lastName: "K",
             location: "Calgary, AB",
-            imageUrl: "https://utfs.io/f/10e17672-4064-441d-a5c1-7527fe2d34b6-5482fr.jpg",
+            imageUrl: "",
             contactNumber: "587 587 5877",
-            email: "jacobchakkaiho@gmail.com",
-            website: "jacobchak.com",
+            email: "chrisk@gmail.com",
+            website: "chris.com",
         },
         servicesOffered: {
             lesson1: {
