@@ -30,12 +30,11 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
         <div className="wrapper flex flex-col items-center justify-center sm:justify-between">
           {/* profile image */}
           <div className="w-40 h-40 border border-black rounded-full flex items-center justify-center overflow-hidden">
-            <Image 
+            <Image priority className="object-cover w-full h-full"
               src={profile.imageUrl}
               alt={profile.username}
               width={500}
               height={500}
-              priority
             />
           </div>
           {/* name */}

@@ -5,9 +5,9 @@ import { dummyServices } from '@/constants/dummyServices'
 
 const services = () => {
   return (
-    <div className='wrapper'>
+    <div className=''>
         <CommonHeader title='My Services'/>
-        <div className='flex-center'>
+        <div className='flex-center pt-6'>
           <Collection 
             direction="vertical"
             itemType='service'

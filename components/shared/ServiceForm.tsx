@@ -44,7 +44,7 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
   const [opened, { open, close }] = useDisclosure(false);
   const { startUpload } = useUploadThing('imageUploader')
 
-  const [ newServiceId, setNewServiceId ] = useState<string | null>(null)
+  const [newServiceId, setNewServiceId] = useState<string | null>(null)
 
   // form setup with react-hook-form and zod
   const form = useForm<z.infer<typeof serviceFormSchema>>({
@@ -220,10 +220,10 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
                         height={24}
                         className="filter-grey"
                       />
-                      <Input 
-                        type="number" 
-                        placeholder="Price" {...field} 
-                        className="p6-regular border-0 bg-grey-50 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0" 
+                      <Input
+                        type="number"
+                        placeholder="Price" {...field}
+                        className="p6-regular border-0 bg-grey-50 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                       />
                       <FormField
                         control={form.control}
@@ -282,7 +282,7 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
           <Button
             type="submit"
             size="lg"
-            disabled={form.formState.isSubmitting} 
+            disabled={form.formState.isSubmitting}
             className="button col-span-2 w-full"
           >
             {form.formState.isSubmitting ? (
@@ -290,47 +290,47 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
             ) : `${type} `}
           </Button>
 
-        {/* successful confetti */}
-        <Modal
-          opened={opened}
-          onClose={close}
-          title=""
-          transitionProps={{ transition: 'fade', duration: 200 }}
-        >
+          {/* successful confetti */}
+          <Modal
+            opened={opened}
+            onClose={close}
+            title=""
+            transitionProps={{ transition: 'fade', duration: 200 }}
+          >
 
-          <div className="flex flex-col items-center justify-center">
-            <h1 className="text-3xl font-semibold mt-5 text-left">Service Created Successfully!</h1>
+            <div className="flex flex-col items-center justify-center">
+              <h1 className="text-3xl font-semibold mt-5 text-left">Service Created Successfully!</h1>
 
-            <div className="my-20">
-              {/* Display the card of the new service */}
-              <Card
-                direction="vertical"
-                itemType="service"
-                item={dummyServices[0]}
-                hasButton={false}
-              />
+              <div className="my-20">
+                {/* Display the card of the new service */}
+                <Card
+                  direction="vertical"
+                  itemType="service"
+                  item={dummyServices[0]}
+                  hasButton={false}
+                />
+              </div>
+
+              {/* Find the service under profile > services */}
+              <h3 className="text-3xl font-semibold text-center mt-5">
+                Find the service under <br />
+                <Link href={`/services/${newServiceId}`} className="text-accent-light underline">
+                  profile {'>'} services
+                </Link>
+              </h3>
             </div>
 
-            {/* Find the service under profile > services */}
-            <h3 className="text-3xl font-semibold text-center mt-5">
-              Find the service under <br />
-              <Link href={`/services/${newServiceId}`} className="text-accent-light underline">
-                profile {'>'} services
-              </Link>
-            </h3>
-          </div>
+            {/* show confetti */}
+            <Confetti
+              {...confettiProps}
+              numberOfPieces={500}
+              recycle={false}
+              initialVelocityY={10}
+              initialVelocityX={10}
+              colors={['#f44336', '#2196f3', '#ffeb3b', '#4caf50']}
+            />
 
-          {/* show confetti */}
-          <Confetti
-            {...confettiProps}  
-            numberOfPieces={500}
-            recycle={false}
-            initialVelocityY={10}
-            initialVelocityX={10}
-            colors={['#f44336', '#2196f3', '#ffeb3b', '#4caf50']}
-          /> 
-
-        </Modal>
+          </Modal>
         </form>
       </Form>
     </section>

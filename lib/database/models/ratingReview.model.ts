@@ -2,7 +2,14 @@ import { Document, Schema, model, models } from "mongoose";
 
 export interface IRatingReview extends Document {
   serviceID: Schema.Types.ObjectId;
-  clientID: Schema.Types.ObjectId;
+  client: {
+    _id: Schema.Types.ObjectId;
+    firstName: string;
+    lastName: string;
+    imageUrl: string;
+    rating: number;
+    review: string;
+  }
   rating: number;
   review: string;
   createdAt: Date;
@@ -16,7 +23,7 @@ export interface IRatingReview extends Document {
 
 const RatingReviewSchema = new Schema<IRatingReview>({
   serviceID: { type: Schema.Types.ObjectId, ref: 'Service', required: true, index: true },
-  clientID: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+  client: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   rating: { type: Number, required: true, min: 1, max: 5, index: true },
   review: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
@@ -40,7 +47,7 @@ const RatingReview = models.RatingReview || model('RatingReview', RatingReviewSc
 export type RatingReviewItem = {
   _id: string;
   service: { _id: string; title: string; provider: string; imageUrl: string };
-  clientID: string;
+  client: { _id: string; firstName: string; lastName: string; imageUrl: string; rating: number; review: string };
   rating: number;
   review: string;
   createdAt: Date;

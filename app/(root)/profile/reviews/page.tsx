@@ -8,7 +8,7 @@ import Link from 'next/link'
 const ProfileReviews = () => {
 
   const user = DummyUsers[0];
-  const reviews = dummmyRatingReviews.filter(review => review.clientID === user._id);
+  const reviews = dummmyRatingReviews.filter(review => review._id === user._id);
 
   return (
     <div >

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import ReserveButton from "./reserveButton"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -20,12 +21,11 @@ export function DataTable<TData, TValue>({
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = useState({})
-
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        // getPaginationRowModel: getPaginationRowModel(),
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
         onColumnFiltersChange: setColumnFilters,
@@ -43,8 +43,8 @@ export function DataTable<TData, TValue>({
     return (
         <div className="rounded-lg border p-4">
 
-            {/* search bar and show */}
-            <div className="flex items-between px-2 gap-x-6">
+            {/* Search bar and show */}
+            <div className="flex items-between px-2 gap-x-6 pt-2 pb-4">
                 <Input
                     placeholder="Find services..."
                     value={(table.getColumn("service")?.getFilterValue() as string) ?? ""}
@@ -84,6 +84,7 @@ export function DataTable<TData, TValue>({
                 </DropdownMenu>
             </div>
 
+            {/* Content */}
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -127,29 +128,36 @@ export function DataTable<TData, TValue>({
                 </TableBody>
             </Table>
 
-            <div className="flex items-center justify-end space-x-2 px-2">
+            {/* Bottom */}
+            <div className="flex items-center justify-end space-x-2 p-2">
                 {/* # of selected service */}
                 <div className="flex-1 text-sm text-muted-foreground">
                     {table.getFilteredSelectedRowModel().rows.length} of{" "}
                     {table.getFilteredRowModel().rows.length} service(s) selected.
                 </div>
+
+                {/* Reserve Button */}
+                <ReserveButton />
+
                 {/* Pagination */}
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    Next
-                </Button>
+                {/* <div>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        Next
+                    </Button>
+                </div> */}
             </div>
 
 

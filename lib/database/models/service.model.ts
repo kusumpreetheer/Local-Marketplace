@@ -47,7 +47,7 @@ export type ServiceItem = {
   imageUrl: string;
   url: string;
   location: string;
-  provider: { _id: string, firstName: string, lastName: string };
+  provider: { _id: string, firstName: string, lastName: string, imageUrl: string, name: string};
   category: { _id: string, name: string}
   servicesOffered: Map<string, { title: string; price: string }>;
   ratingReviewIDs: string[];

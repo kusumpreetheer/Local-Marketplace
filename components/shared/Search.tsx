@@ -1,15 +1,25 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Input } from '../ui/input';
 import { formUrlQuery, removeKeysFromQuery } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SearchIcon } from '@/public/assets/icons/SearchIcon'
 
-const Search = ({ placeholder = 'Search services...', disabled }: { placeholder?: string, disabled?: boolean }) => {
+const Search = ({ placeholder = 'Search services...', disabled}: { placeholder?: string, disabled?: boolean }) => {
   const [query, setQuery] = useState('');
   const router = useRouter();
   const searchParams = useSearchParams();
+  const inputRef = useRef<HTMLInputElement>(null);  // Ref to input element
+  const shouldFocus = disabled ? false : true;
+
+  // Focus on input when component mounts
+  useEffect(() => {
+    if (shouldFocus && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [shouldFocus]);
+
 
   useEffect(() => {
     // Debounce the query change
@@ -42,6 +52,7 @@ const Search = ({ placeholder = 'Search services...', disabled }: { placeholder?
         onChange={(e) => setQuery(e.target.value)}
         className={`p6-regular border-0 bg-primary outline-offset-0 placeholder:text-grey-500 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0
         ${disabled ? 'cursor-pointer' : 'cursor-text'}`}
+        ref={inputRef} 
       />
     </div>
   )

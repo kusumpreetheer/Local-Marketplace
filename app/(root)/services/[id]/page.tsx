@@ -12,8 +12,7 @@ import { Globe } from '@/public/assets/icons/Globe';
 import ServiceReviews from '@/components/shared/ServiceReviews';
 import CommonHeader from '@/components/shared/CommonHeader';
 import { Slash } from "lucide-react"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import ServiceTable from '@/components/shared/ServiceTable/ServiceTable';
+import ServiceTable from './serviceTable';
 // import { getServiceById } from '@/lib/actions/service.actions';
 
 const ServicePost = async ({ params: { id }, searchParams }: SearchParamProps) => {
@@ -74,7 +73,7 @@ const ServicePost = async ({ params: { id }, searchParams }: SearchParamProps) =
                     <div className='flex-between gap-x-3'>
                       <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center overflow-hidden">
                         <Image
-                          priority
+                          priority className="object-cover w-full h-full"
                           src={service?.provider?.imageUrl ?? ''}
                           alt="Profile"
                           width={500}
@@ -130,7 +129,10 @@ const ServicePost = async ({ params: { id }, searchParams }: SearchParamProps) =
             </section>
 
             {/* Services Offered */}
-            <ServiceTable service={service} />
+            <section className="flex flex-col pt-6">
+              <h2 className="h4-semibold">Services Offered</h2>
+              <ServiceTable service={service} />
+            </section>
 
             {/* Reviews */}
             <ServiceReviews service={service} />
