@@ -1,3 +1,18 @@
+// ====== DUMMY PARAMS
+export type DummyUser = {
+  clerkId: string;
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string;
+  serviceIDs: string[];
+  reviewIDs: string[];
+  website: string;
+  location: string;
+  contactNumber: string;
+};
+
 // ====== USER PARAMS
 export type CreateUserParams = {
   clerkId: string;
@@ -27,8 +42,7 @@ export type CreateServiceParams = {
     location: string
     imageUrl: string
     categoryId: string
-    price: string
-    isFree: boolean
+    servicesOffered: Array<ServiceItem>
     url: string
   }
   path: string
@@ -62,8 +76,6 @@ export type GetAllServicesParams = {
   category: string
   limit: number
   page: number
-  rating: number
-  distance: number
 }
 
 export type GetServicesByUserParams = {
@@ -101,38 +113,59 @@ export type Service = {
   }
 }
 
+export type ServiceItem = {
+  id: string
+  title: string
+  description: string
+  price: string
+}
+
 // ====== CATEGORY PARAMS
 export type CreateCategoryParams = {
   categoryName: string
 }
 
-// ====== ORDER PARAMS
-export type CheckoutOrderParams = {
+// ====== RESERVATION PARAMS
+export type CheckoutReservationParams = {
   serviceTitle: string
   serviceId: string
   price: string
   isFree: boolean
-  buyerId: string
+  clientId: string
 }
 
-export type CreateOrderParams = {
-  stripeId: string
+export type CreateReservationParams = {
+  userId: string
   serviceId: string
-  buyerId: string
-  totalAmount: string
-  createdAt: Date
+  reservation: {
+    // stripeId: string
+    providerId: string
+    serviceId: string
+    // totalAmount: string
+    createdAt: Date
+    selectedServices: string[]
+  }
+  path: string
 }
 
-export type GetOrdersByServiceParams = {
+export type GetReservationsByServiceParams = {
   serviceId: string
   searchString: string
 }
 
-export type GetOrdersByUserParams = {
+export type GetReservationsByUserParams = {
   userId: string | null
   limit?: number
   page: string | number | null
 }
+
+// ====== REVIEW PARAMS
+export type GetReviewsByServiceParams = {
+  serviceId: string
+  limit?: number
+  page: number
+}
+
 
 // ====== Url QUERY PARAMS
 export type UrlQueryParams = {

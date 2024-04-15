@@ -1,5 +1,3 @@
-"use server"
-
 import CommonHeader from "@/components/shared/CommonHeader"
 import ReviewForm from "@/components/shared/ReviewForm";
 import { auth } from "@clerk/nextjs";

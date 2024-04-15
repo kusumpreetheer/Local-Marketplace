@@ -2,8 +2,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Card from './Card';
-import { ServiceItem } from '@/lib/database/models/service.model';
-import { RatingReviewItem } from '@/lib/database/models/ratingReview.model';
+import { IService } from '@/lib/database/models/service.model';
+import { ReviewItem } from '@/lib/database/models/review.model';
 import { ReservationItem } from '@/lib/database/models/reservation.model';
 import Link from 'next/link';
 import { Url } from 'next/dist/shared/lib/router/router';
@@ -11,41 +11,30 @@ import { ArrowLeft } from '@/public/assets/icons/ArrowLeft';
 import { ArrowRight } from '@/public/assets/icons/ArrowRight';
 
 type CollectionProps = {
-    title?: string;
-    selectedCategory?: string;
+    title?: { _id: string, name: string };
     direction?: 'horizontal' | 'vertical';
     itemType?: 'service' | 'reservation' | 'review';
-    items?: ServiceItem[] | RatingReviewItem[] | ReservationItem[];
+    items?: IService[] | ReviewItem[] | ReservationItem[];
     hasButton?: boolean;
     limit?: number;
     hasViewMore?: boolean;
     link?: Url;
     itemsPerPage?: number;
     nextPrevButton?: boolean;
+    selectedCategory?: string;
 };
 
-const Collection = ({
-    title,
-    selectedCategory,
-    direction,
-    itemType,
-    items,
-    hasButton,
-    limit,
-    hasViewMore,
-    link,
-    itemsPerPage,
-    nextPrevButton,
+const Collection = ({ title, direction, itemType, items, hasButton, hasViewMore, link, nextPrevButton, selectedCategory
 }: CollectionProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const scrollBy = (offset: number) => {
-        console.log(containerRef.current?.scrollLeft, offset);
-
         if (containerRef.current) { containerRef.current.scrollLeft += offset; }
     };
 
-    // Card collection
+    /*************************************************************************************
+     * Layout Components
+     *************************************************************************************/
     const CardCollection = () => {
         return (
             <div className="relative [&_#card-prev-next-button]:hover:opacity-50">
@@ -72,15 +61,15 @@ const Collection = ({
                 {/* Next Prev button */}
                 {nextPrevButton && <button
                     id="card-prev-next-button"
-                    onClick={() => scrollBy(-400)} // Adjust scroll amount as per your design
-                    className="hidden md:block left-0"
+                    onClick={() => scrollBy(-800)}
+                    className="left-0 hidden md:block"
                 >
                     <ArrowLeft className='text-[22px]' />
                 </button>}
                 {nextPrevButton && <button
                     id="card-prev-next-button"
-                    onClick={() => scrollBy(400)} // Adjust scroll amount as per your design
-                    className="hidden md:block right-0"
+                    onClick={() => scrollBy(800)}
+                    className="right-0 hidden md:block"
                 >
                     <ArrowRight className='text-[22px]' />
                 </button>}
@@ -88,15 +77,19 @@ const Collection = ({
         )
     }
 
+    /*************************************************************************************
+     * Render
+     *************************************************************************************/
     return (
         <>
-            <div className='flex justify-start items-center gap-x-2 cursor-pointer [&_*]:hover:opacity-100'>
-                <h2 className='pl-5 md:pl-4 lg:pl-10 h4-bold text-primary-foreground'>
-                    {title}
+            <div className='flex justify-start items-center gap-x-2 cursor-pointer [&_*]:hover:opacity-100 '>
+                <h2 className={`pl-5 md:pl-4 lg:pl-10 h4-bold text-primary-foreground ${selectedCategory === title?._id ? ' highlight-text' : ""}`}>
+                    {title?.name}
                 </h2>
+
                 {/* View more */}
                 {hasViewMore && link &&
-                    <Link href={link} className='opacity-0 transition-all duration-300 ease-in-out'>   
+                    <Link href={link} className='transition-all duration-300 ease-in-out opacity-0'>                       
                         <ArrowRight className='text-[24px] font-bold text-primary-foreground' />
                     </Link>
                 }

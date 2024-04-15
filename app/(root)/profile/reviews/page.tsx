@@ -2,13 +2,13 @@ import React from 'react'
 import CommonHeader from '@/components/shared/CommonHeader'
 import Collection from '@/components/shared/Collection'
 import DummyUsers from '@/constants/dummyUsers'
-import { dummmyRatingReviews } from '@/constants/dummyReviews'
+import { dummmyReviews } from '@/constants/dummyReviews'
 import Link from 'next/link'
 
 const ProfileReviews = () => {
 
   const user = DummyUsers[0];
-  const reviews = dummmyRatingReviews.filter(review => review._id === user._id);
+  const reviews = dummmyReviews.filter(review => review._id === user._id);
 
   return (
     <div >

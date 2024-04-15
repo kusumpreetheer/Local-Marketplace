@@ -4,11 +4,11 @@ import Collection from '@/components/shared/Collection'
 import CommonHeader from '@/components/shared/CommonHeader'
 import { StarFilled } from '@/public/assets/icons/StarFilled'
 import Image from 'next/image';
-import dummmyRatingReviews from '@/constants/dummyReviews';
+import dummmyReviews from '@/constants/dummyReviews';
 
 const Reviews = () => {
 
-    const reviews = dummmyRatingReviews;
+    const reviews = dummmyReviews;
 
     return (
         <section>

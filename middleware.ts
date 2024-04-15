@@ -5,6 +5,16 @@ export default authMiddleware({
   publicRoutes: [
     '/',
     '/services/:id',
+    '/services',
+    '/categories',
+    '/categories/:id',
+    '/search',
+    '/search/:query',
+    '/login',
+    '/signup',
+    '/forgot-password',
+    '/reset-password',
+    '/verify-email',
     '/api/webhooks/clerk',
     '/api/webhooks/stripe', // for web purchases
     '/api/uploadthing'

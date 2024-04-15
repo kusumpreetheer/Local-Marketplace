@@ -1,5 +1,3 @@
-import { ServiceItem } from '@/lib/database/models/service.model';
-
 export const dummyServices = [
     {
         title: "Wall Painter",
@@ -31,7 +29,7 @@ export const dummyServices = [
                 price: "400",
             },
         },
-        ratingReviewIDs: ["1", "2", "3"],
+        reviewIDs: ["1", "2", "3"],
     },
     {
         title: "Service2",
@@ -63,7 +61,7 @@ export const dummyServices = [
                 price: "400",
             },
         },
-        ratingReviewIDs: ["1", "2", "3"],
+        reviewIDs: ["1", "2", "3"],
     },
     {
         title: "Ass Painter",
@@ -95,7 +93,7 @@ export const dummyServices = [
                 price: "400",
             },
         },
-        ratingReviewIDs: ["1", "2", "3"],
+        reviewIDs: ["1", "2", "3"],
 
     },
     {
@@ -128,7 +126,7 @@ export const dummyServices = [
                 price: "400",
             },
         },
-        ratingReviewIDs: ["1", "2", "3"],
+        reviewIDs: ["1", "2", "3"],
 
     }
 ];

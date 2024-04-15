@@ -1,27 +1,18 @@
+import React from "react";
 import CommonHeader from "@/components/shared/CommonHeader";
-import ServiceForm from "@/components/shared/ServiceForm"
 import { auth } from "@clerk/nextjs";
+import CreateService from "@/components/shared/CreateService";
 
-const CreateService = () => {
+const page = () => {
   const { sessionClaims } = auth();
-
   const userId = sessionClaims?.userId as string;
 
-  console.log('userId', userId)
-
   return (
-      <section className="wrapper md:py-4">
-        <CommonHeader 
-          title="Create New Service"
-        />
-        <div className="md:py-2">
-          <ServiceForm 
-            userId={userId} 
-            type="Create" 
-          />
-        </div>
-      </section>
+    <section >
+      <CommonHeader title="Create New Service" />
+      <CreateService userId={userId}/>
+    </section>
   )
 }
 
-export default CreateService
+export default page

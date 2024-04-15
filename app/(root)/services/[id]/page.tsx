@@ -12,13 +12,16 @@ import { Globe } from '@/public/assets/icons/Globe';
 import ServiceReviews from '@/components/shared/ServiceReviews';
 import CommonHeader from '@/components/shared/CommonHeader';
 import { Slash } from "lucide-react"
-import ServiceTable from './serviceTable';
-// import { getServiceById } from '@/lib/actions/service.actions';
+import ServiceAndReservation from '@/components/shared/services/ServiceAndReservation';
+import { getRelatedServicesByCategory, getServiceById } from '@/lib/actions/service.actions';
+import { getReviewsByService } from '@/lib/actions/review.actions';
+import { ReviewItem } from '@/lib/database/models/review.model';
 
 const ServicePost = async ({ params: { id }, searchParams }: SearchParamProps) => {
 
-  // const service = await getServiceById(id);
-  const service = dummyServices.find((service) => service?._id === id);
+  const service = await getServiceById(id);
+  const relatedServices = await getRelatedServicesByCategory({ categoryId: service.category._id, serviceId: service._id, page: 1, limit: 10});
+  const serviceReviews: ReviewItem[] = [];
 
   const BreadcrumbBar = () => {
     return (
@@ -53,19 +56,22 @@ const ServicePost = async ({ params: { id }, searchParams }: SearchParamProps) =
         <div className='wrapper'>
           <div className='px-8 md:pt-4'>
             <BreadcrumbBar />
+
             {/* Provider Info */}
             <section className="flex justify-center bg-dotted-pattern bg-contain pb-4 md:py-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-7xl gap-y-4 gap-x-4">
+              <div className={` ${service?.imageUrl ? 'grid grid-cols-1 md:grid-cols-2' : ''} 2xl:max-w-7xl gap-y-4 gap-x-4`}>
                 {/* hero image */}
-                <div className='w-full h-48 md:h-80 flex justify-center overflow-hidden rounded-md'>
-                  <Image
-                    src={service?.imageUrl}
-                    alt="hero image"
-                    width={1000}
-                    height={1000}
-                    className='object-cover '
-                  />
-                </div>
+                {service?.imageUrl && ( // If the image if present only then show the image section
+                  <div className='w-full h-48 md:h-80 flex justify-center overflow-hidden rounded-md'>
+                    <Image
+                      src={service?.imageUrl}
+                      alt="hero image"
+                      width={1000}
+                      height={1000}
+                      className='object-cover '
+                    />
+                  </div>                  
+                )}
                 {/* Details */}
                 <div className="w-full md:h-80 flex justify-evenly flex-col gap-1 bg-primary px-4 rounded-md">
                   {/* image, name, rating */}
@@ -92,33 +98,41 @@ const ServicePost = async ({ params: { id }, searchParams }: SearchParamProps) =
                   {/* Contact Info */}
                   <div className='flex flex-col items-start justify-center w-full gap-y-2 px-4 pb-4'>
                     {/* Phone */}
-                    <div className="flex items-center gap-x-6">
-                      <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
-                        <Phone className="w-5 h-5" />
+                    {service?.provider?.contactNumber && (
+                      <div className="flex items-center gap-x-6">
+                        <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
+                          <Phone className="w-5 h-5" />
+                        </div>
+                        <a href={`tel:$`} className="text-black">{service?.provider?.contactNumber}</a>
                       </div>
-                      <a href={`tel:$`} className="text-black">{service?.provider?.contactNumber}</a>
-                    </div>
+                    )}
                     {/* Email */}
-                    <div className="flex items-center gap-x-6">
-                      <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
-                        <Mail className="w-5 h-5" />
+                    {service?.provider?.email && (
+                      <div className="flex items-center gap-x-6">
+                        <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
+                          <Mail className="w-5 h-5" />
+                        </div>
+                        <a href={`mailto:${service?.provider?.email}`} className="text-black">{service?.provider?.email}</a>
                       </div>
-                      <a href={`mailto:${service?.provider?.email}`} className="text-black">{service?.provider?.email}</a>
-                    </div>
+                    )}
                     {/* Location */}
-                    <div className="flex items-center gap-x-6">
-                      <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
-                        <LocationPin className="w-5 h-5" />
+                    {service?.location && (
+                      <div className="flex items-center gap-x-6">
+                        <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
+                          <LocationPin className="w-5 h-5" />
+                        </div>
+                        <p className="">{service?.location}</p>
                       </div>
-                      <p className="">{service?.provider?.location}</p>
-                    </div>
+                    )}
                     {/* Website */}
-                    <div className="flex items-center gap-x-6">
-                      <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
-                        <Globe className="w-5 h-5" />
+                    {service?.provider?.website && (
+                      <div className="flex items-center gap-x-6">
+                        <div className="w-7 h-7 border border-black rounded-full flex items-center justify-center">
+                          <Globe className="w-5 h-5" />
+                        </div>
+                        <a href={'{service?.provider?.website}'} className="text-black" target="_blank" rel="noopener noreferrer">{service?.provider?.website}</a>
                       </div>
-                      <a href={'{service?.provider?.website}'} className="text-black" target="_blank" rel="noopener noreferrer">{service?.provider?.website}</a>
-                    </div>
+                    )}
                     {/* Service Description (for desktop) */}
                     <div className='mx-2 md:my-2'>
                       <p className='text-m'>{service?.description}</p>
@@ -128,14 +142,14 @@ const ServicePost = async ({ params: { id }, searchParams }: SearchParamProps) =
               </div>
             </section>
 
-            {/* Services Offered */}
+            {/* Services & Reservation */}
             <section className="flex flex-col pt-6">
               <h2 className="h4-semibold">Services Offered</h2>
-              <ServiceTable service={service} />
+              <ServiceAndReservation service={service} />
             </section>
 
             {/* Reviews */}
-            <ServiceReviews service={service} />
+            <ServiceReviews service={service} serviceReviews={serviceReviews} />
           </div>
 
           {/* Services with the same category */}
@@ -145,7 +159,7 @@ const ServicePost = async ({ params: { id }, searchParams }: SearchParamProps) =
               <Collection
                 direction="horizontal"
                 itemType="service"
-                items={dummyServices}
+                items={relatedServices}
                 nextPrevButton={true}
               />
             </div>

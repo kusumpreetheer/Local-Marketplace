@@ -8,10 +8,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 export type ServiceOffered = {
     id: string
-    service: string
-    availability: string
-    rating: number
-    comments: number
+    title: string
+    // availability: string
+    // rating: number
+    description: string
     price: number
 }
 
@@ -41,14 +41,32 @@ export const columns: ColumnDef<ServiceOffered>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "service",
+        accessorKey: "title",
         header: () => <div>Service</div>,
         cell: ({ row }) => {
-            return <div className="">{row.getValue("service")}</div>
+            return <div className="">{row.getValue("title")}</div>
         },
     },
+    // {
+    //     accessorKey: "rating",
+    //     header: ({ column }) => {
+    //         return (
+    //             <Button
+    //                 variant="ghost"
+    //                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //                 className="flex-center mx-auto"
+    //             >
+    //                 Rating
+    //                 <ArrowUpDown className="ml-2 h-4 w-4" />
+    //             </Button>
+    //         )
+    //     },
+    //     cell: ({ row }) => {
+    //         return <div className="text-center">{row.getValue("rating")}</div>
+    //     },
+    // },
     {
-        accessorKey: "rating",
+        accessorKey: "description",
         header: ({ column }) => {
             return (
                 <Button
@@ -56,51 +74,33 @@ export const columns: ColumnDef<ServiceOffered>[] = [
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     className="flex-center mx-auto"
                 >
-                    Rating
+                    Description
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
         },
         cell: ({ row }) => {
-            return <div className="text-center">{row.getValue("rating")}</div>
+            return <div className="text-center">{row.getValue("description")}</div>
         },
     },
-    {
-        accessorKey: "comments",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    className="flex-center mx-auto"
-                >
-                    Comments
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => {
-            return <div className="text-center">{row.getValue("comments")}</div>
-        },
-    },
-    {
-        accessorKey: "availability",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    className="flex-center mx-auto"
-                >
-                    Availability
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => {
-            return <div className="text-center">{row.getValue("availability")}</div>
-        },
-    },
+    // {
+    //     accessorKey: "availability",
+    //     header: ({ column }) => {
+    //         return (
+    //             <Button
+    //                 variant="ghost"
+    //                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //                 className="flex-center mx-auto"
+    //             >
+    //                 Availability
+    //                 <ArrowUpDown className="ml-2 h-4 w-4" />
+    //             </Button>
+    //         )
+    //     },
+    //     cell: ({ row }) => {
+    //         return <div className="text-center">{row.getValue("availability")}</div>
+    //     },
+    // },
     {
         accessorKey: "price",
         header: ({ column }) => {
@@ -121,8 +121,8 @@ export const columns: ColumnDef<ServiceOffered>[] = [
                 style: "currency",
                 currency: "CAD",
             }).format(amount)
-
-            return <div className="text-right font-medium">{formatted}</div>
+            
+            return <div className="text-right font-medium">{formatted === "CA$NaN"? "" : formatted}</div>
         },
     },
     {

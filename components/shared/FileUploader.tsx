@@ -56,9 +56,9 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }:
           <h3 className="mb-2 mt-2">Drag photo here</h3>
           <p className="p-medium-12 mb-4">SVG, PNG, JPG</p>
           <Button 
-            variant="secondary"
+            variant="outline"
             type="button" 
-            className="rounded-full"
+            className="text-black rounded-full p2-regular p-4 border-2 hover:bg-accent hover:text-accent-foreground"
           >
             Select an image
           </Button>

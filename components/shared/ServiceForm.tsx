@@ -1,50 +1,64 @@
 "use client"
 
-import react, { useEffect } from 'react'
+import react, { useEffect, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import * as z from 'zod'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { serviceFormSchema } from "@/lib/validator"
-import * as z from 'zod'
-import { serviceDefaultValues } from "@/constants"
-import Dropdown from "./Dropdown"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/createServiceTable"
 import { Textarea } from "@/components/ui/textarea"
-import { FileUploader } from "./FileUploader"
-import { useState } from "react"
-import Image from "next/image"
+import { Button } from "@/components/ui/button";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { FileUploader } from "@/components/shared/FileUploader"
 import DatePicker from "react-datepicker";
-import { useUploadThing } from '@/lib/uploadthing'
 import "react-datepicker/dist/react-datepicker.css";
-import { Checkbox } from "../ui/checkbox"
+import { serviceFormSchema } from "@/lib/validator"
+import { useUploadThing } from '@/lib/uploadthing'
+import { serviceDefaultValues } from "@/constants"
+import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { IService, ServiceItem } from "@/lib/database/models/service.model"
+import { IService } from "@/lib/database/models/service.model"
 import { createService } from "@/lib/actions/service.actions"
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { Modal, Button } from '@mantine/core';
-import Card from "./Card"
-import Link from "next/link"
+import { Modal } from '@mantine/core';
+import Card from "@/components/shared/Card";
+import Dropdown from "@/components/shared/Dropdown";
 import Confetti from 'react-confetti';
 import dummyServices from "@/constants/dummyServices"
-import { set } from 'mongoose'
+import { MdOutlineModeEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { ServiceItem } from '@/types'
 
 type ServiceFormProps = {
   userId: string
   type: "Create" | "Update"
   service?: IService,
   serviceId?: string
+  serviceItem?: ServiceItem | null
+  serviceItems?: ServiceItem[]
+  setServiceItems: (serviceItems: ServiceItem[]) => void
+  setIsModalOpen: (isOpen: boolean) => void
 }
 
-const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => {
+const ServiceForm = ({
+  userId, type, service, serviceId, setIsModalOpen,
+  serviceItem: parentServiceItem,
+  serviceItems: parentServiceItems,
+  setServiceItems: parentSetServiceItems }: ServiceFormProps) => {
+
   const [files, setFiles] = useState<File[]>([])
   const initialValues = service && type === 'Update'
-    ? { ...service }
+    ? { ...service, servicesOffered: Array.from(service.servicesOffered.values()) }
     : serviceDefaultValues;
-  const router = useRouter();
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(false); // for confetti
+  const [alertOpen, setAlertOpen] = useState(false) // for alert dialog
+  const [deleteItem, setDeleteItem] = useState<number>(0) // for deleting service item
   const { startUpload } = useUploadThing('imageUploader')
-
-  const [newServiceId, setNewServiceId] = useState<string | null>(null)
+  const [newService, setNewService] = useState<IService>()
+  const [serviceItems, setServiceItems] = useState<ServiceItem[]>([])
+  const [noServiceItem, setNoServiceItem] = useState<boolean>(false)
 
   // form setup with react-hook-form and zod
   const form = useForm<z.infer<typeof serviceFormSchema>>({
@@ -54,6 +68,13 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
 
   // submit form
   async function onSubmit(values: z.infer<typeof serviceFormSchema>) {
+
+    // manually check whether we have at least one service item
+    if (serviceItems.length === 0) {
+      setNoServiceItem(true)
+      return;
+    }
+
     let uploadedImageUrl = values.imageUrl;
 
     if (files.length > 0) {
@@ -63,16 +84,21 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
     }
 
     if (type === 'Create') {
+
       try {
-        const newService = await createService({
-          service: { ...values, imageUrl: uploadedImageUrl },
+        const createdService = await createService({
+          service: {
+            ...values,
+            servicesOffered: serviceItems,
+            imageUrl: uploadedImageUrl
+          },
           userId,
           path: '/profile'
         })
 
-        if (newService) {
+        if (createdService) {
           form.reset();
-          setNewServiceId(newService._id);
+          setNewService(createdService);
           open();
         }
       } catch (error) {
@@ -105,13 +131,94 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
   //   }
   // }
 
-  const confettiProps = typeof window !== 'undefined' ? {
-    width: window.innerWidth,
-    height: window.innerHeight
-  } : {};
+
+  // update service items
+  useEffect(() => {
+    setServiceItems(parentServiceItems || [])
+  }, [parentServiceItems])
+
+
+  // delete service item
+  const deleteServiceItem = (index: number) => {
+    setAlertOpen(true);
+    setDeleteItem(index);
+  }
+
+  // delete alert
+  const DeleteAlert = () => {
+    return (
+      <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
+        <AlertDialogContent className='text-black bg-primary'>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your service item.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    )
+  }
+
+  // confirm delete
+  const confirmDelete = () => {
+    setAlertOpen(false);
+    const newServiceItems = serviceItems.filter((_, i) => i !== deleteItem);
+    setServiceItems(newServiceItems);
+    parentSetServiceItems(newServiceItems)
+  }
+
+
+  /***********************************************************************************
+   * Success Modal
+   **********************************************************************************/
+
+  const SuccessModal = () => {
+    // confetti props
+    const confettiProps = typeof window !== 'undefined' ? {
+      width: window.innerWidth,
+      height: window.innerHeight
+    } : {};
+
+    return (
+      <Modal
+        opened={opened}
+        onClose={close}
+        title=""
+        transitionProps={{ transition: 'fade', duration: 200 }}
+      >
+        <div className='flex-center flex-col gap-7'>
+          <h1 className="h4-medium text-center">Service created successfully!</h1>
+          <Link href={`/services/${newService?._id}`} className='mb-7'>
+            <Button variant="default">View Service</Button>
+          </Link>
+        </div>
+
+        {/* show confetti */}
+        <Confetti
+          {...confettiProps}
+          numberOfPieces={500}
+          recycle={false}
+          initialVelocityY={10}
+          initialVelocityX={10}
+          colors={['#f44336', '#2196f3', '#ffeb3b', '#4caf50']}
+        />
+
+      </Modal>
+
+    )
+  }
+
+  /***********************************************************************************
+   * Render
+   **********************************************************************************/
 
   return (
-    <section className="px-4 md:px-20 pt-2">
+    <section className="px-4 pt-2 md:px-20">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
           {/* Service Image */}
@@ -133,7 +240,6 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
           />
 
           <div className="flex flex-col gap-5 md:flex-row">
-
             {/* Service Title */}
             <FormField
               control={form.control}
@@ -163,15 +269,15 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
             />
           </div>
 
+          {/* Service Description */}
           <div className="flex flex-col gap-5 md:flex-row">
-            {/* Service Description */}
             <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormControl className="h-72">
-                    <Textarea placeholder="Description" {...field} className="textarea rounded-sm" />
+                  <FormControl className="h-20">
+                    <Textarea placeholder="Description" {...field} className="rounded-sm textarea" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -179,6 +285,46 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
             />
           </div>
 
+          {/* Services offered */}
+          <div className='p-2 border-1 bg-grey'>
+            <Table>
+              <TableCaption>
+                {/* <ServiceItemModal userId={userId} type="Create"/> */}
+                <Button type='button' onClick={() => setIsModalOpen(true)}
+                  className='w-full bg-transparent rounded-none hover:bg-grey-50'>+ Add Service</Button>
+              </TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className='w-[30%]'>Service Item</TableHead>
+                  <TableHead className='w-[50%]'>Description</TableHead>
+                  <TableHead className="text-right">Price</TableHead>
+                  <TableHead></TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {serviceItems.length > 0 ? (
+                  serviceItems.map((serviceItem, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{serviceItem.title}</TableCell>
+                      <TableCell>{serviceItem.description}</TableCell>
+                      <TableCell className="text-right">{serviceItem.price ? "CA$" + serviceItem.price : "n/a"}</TableCell>
+                      <TableCell className="cursor-pointer" onClick={() => deleteServiceItem(index)}><MdOutlineModeEdit /></TableCell>
+                      <TableCell className="cursor-pointer" onClick={() => deleteServiceItem(index)}><MdDelete /></TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={3} className={`${noServiceItem ? "text-red-500" : "text-black/70"}`}>
+                      No service items provided.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+
+          {/* Location & Website */}
           <div className="flex flex-col gap-5 md:flex-row">
             {/* Service Location */}
             <FormField
@@ -194,56 +340,7 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
                         width={24}
                         height={24}
                       />
-                      <Input placeholder="Service location or Online" {...field} className="input-field" />
-                    </div>
-
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          {/* Service Price */}
-          <div className="flex flex-col gap-5 md:flex-row">
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormControl>
-                    <div className="flex-center h-[54px] w-full overflow-hidden rounded-sml bg-grey-50 px-4 py-2">
-                      <Image
-                        src="/assets/icons/dollar.svg"
-                        alt="dollar"
-                        width={24}
-                        height={24}
-                        className="filter-grey"
-                      />
-                      <Input
-                        type="number"
-                        placeholder="Price" {...field}
-                        className="p6-regular border-0 bg-grey-50 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                      />
-                      <FormField
-                        control={form.control}
-                        name="isFree"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <div className="flex items-center">
-                                <label htmlFor="isFree" className="whitespace-nowrap pr-3 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Free Service</label>
-                                <Checkbox
-                                  onCheckedChange={field.onChange}
-                                  checked={field.value}
-                                  id="isFree" className="mr-2 h-5 w-5 border-2 border-primary-500" />
-                              </div>
-
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <Input placeholder="Service location" {...field} className="input-field" />
                     </div>
 
                   </FormControl>
@@ -266,10 +363,8 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
                         width={24}
                         height={24}
                       />
-
-                      <Input placeholder="Url" {...field} className="input-field" />
+                      <Input placeholder="Website" {...field} className="input-field" />
                     </div>
-
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -277,63 +372,28 @@ const ServiceForm = ({ userId, type, service, serviceId }: ServiceFormProps) => 
             />
           </div>
 
-
           {/* Submit Button */}
           <Button
             type="submit"
             size="lg"
             disabled={form.formState.isSubmitting}
-            className="button col-span-2 w-full"
+            className="w-full col-span-2 button"
           >
             {form.formState.isSubmitting ? (
               'Submitting...'
             ) : `${type} `}
           </Button>
 
-          {/* successful confetti */}
-          <Modal
-            opened={opened}
-            onClose={close}
-            title=""
-            transitionProps={{ transition: 'fade', duration: 200 }}
-          >
 
-            <div className="flex flex-col items-center justify-center">
-              <h1 className="text-3xl font-semibold mt-5 text-left">Service Created Successfully!</h1>
+          {/* Delete Alert */}
+          <DeleteAlert />
 
-              <div className="my-20">
-                {/* Display the card of the new service */}
-                <Card
-                  direction="vertical"
-                  itemType="service"
-                  item={dummyServices[0]}
-                  hasButton={false}
-                />
-              </div>
+          {/* Successful Modal */}
+          <SuccessModal />
 
-              {/* Find the service under profile > services */}
-              <h3 className="text-3xl font-semibold text-center mt-5">
-                Find the service under <br />
-                <Link href={`/services/${newServiceId}`} className="text-accent-light underline">
-                  profile {'>'} services
-                </Link>
-              </h3>
-            </div>
-
-            {/* show confetti */}
-            <Confetti
-              {...confettiProps}
-              numberOfPieces={500}
-              recycle={false}
-              initialVelocityY={10}
-              initialVelocityX={10}
-              colors={['#f44336', '#2196f3', '#ffeb3b', '#4caf50']}
-            />
-
-          </Modal>
         </form>
       </Form>
-    </section>
+    </section >
   )
 }
 

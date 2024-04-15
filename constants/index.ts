@@ -4,9 +4,14 @@ export const serviceDefaultValues = {
   location: '',
   imageUrl: '',
   categoryId: '',
-  price: '',
-  isFree: false,
+  servicesOffered: [],
   url: '',
+}
+
+export const serviceItemDefaultValues = {
+  title: '',
+  description: '',
+  price: '',
 }
 
 export const reviewDefaultValues = {

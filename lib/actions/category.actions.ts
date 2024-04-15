@@ -8,7 +8,6 @@ import Category from "../database/models/category.model"
 export const createCategory = async ({ categoryName }: CreateCategoryParams) => {
   try {
     await connectToDatabase();
-
     console.log('categoryName:', categoryName);
     
     const newCategory = await Category.create({ name: categoryName });

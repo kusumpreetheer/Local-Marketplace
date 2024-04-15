@@ -10,7 +10,7 @@ export const dummyUsers = [
         location: "24 whitecres Ave, Calgary AB",
         contactNumber: "587 946 5893",
         serviceIDs: ["1", "2"],
-        ratingReviewIDs: ["1", "2"],
+        reviewIDs: ["1", "2"],
     },
     {
         clerkId: "clerkId2",
@@ -23,7 +23,7 @@ export const dummyUsers = [
         location: "Your mama's house",
         contactNumber: "587 946 5892",
         serviceIDs: [],
-        ratingReviewIDs: [],
+        reviewIDs: [],
     },
     {
         clerkId: "clerkId3",
@@ -36,7 +36,7 @@ export const dummyUsers = [
         location: "Location3",
         contactNumber: "587 946 1111",
         serviceIDs: [],
-        ratingReviewIDs: [],
+        reviewIDs: [],
     },
 ];
 

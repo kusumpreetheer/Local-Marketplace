@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Collection from '@/components/shared/Collection'
-import { dummyServices } from '@/constants/dummyServices'
 import Search from '@/components/shared/Search'
 import Filter from '@/components/shared/Filter'
 import { getAllServices } from '@/lib/actions/service.actions';
@@ -13,24 +12,28 @@ export default async function SearchPage({ searchParams }: SearchParamProps) {
   const category = (searchParams?.category as string) || '';
   const rating = Number(searchParams?.rating) || 0;
   const distance = Number(searchParams?.distance) || 0;
-  
-  // const services = await getAllServices({
-  //   query: searchText,
-  //   category,
-  //   rating, 
-  //   distance,
-  //   page,
-  //   limit: 12
-  // })
 
+  /****************************************************************************************************************************
+   * Fetch services from the database, using the search parameters
+   ****************************************************************************************************************************/
+  const services = await getAllServices({
+    query: searchText,
+    category,
+    page,
+    limit: 100,
+  });
+
+  /****************************************************************************************************************************
+   * Render
+   ****************************************************************************************************************************/
   return (
     <>
       {/* Search & Filter */}
       <div className="flex w-full p-2 py-4 md:p-4">
         <div className="big-wrapper flex items-center w-full gap-x-2">
-          <BackButton destination='/'/>
-          <Search/>
-          <Filter/>
+          <BackButton destination='/' />
+          <Search />
+          <Filter />
         </div>
       </div>
 
@@ -39,7 +42,7 @@ export default async function SearchPage({ searchParams }: SearchParamProps) {
         <Collection
           direction="vertical"
           itemType='service'
-          items={dummyServices}
+          items={services?.data}
           hasViewMore={true}
         />
       </div>

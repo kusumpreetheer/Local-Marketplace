@@ -2,14 +2,13 @@ import React from 'react'
 import { StarFilled } from '@/public/assets/icons/StarFilled';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ServiceItem } from '@/lib/database/models/service.model';
-import { dummmyRatingReviews } from '@/constants/dummyReviews';
+import { dummmyReviews } from '@/constants/dummyReviews';
 import { dummyUsers } from '@/constants/dummyUsers';
 import { Pen } from '@/public/assets/icons/Pen';
+import { ReviewItem } from '@/lib/database/models/review.model';
+import { IService } from '@/lib/database/models/service.model';
 
-const ServiceReviews = ({ service }: { service: ServiceItem }) => {
-
-    const serviceReviews = dummmyRatingReviews;
+const ServiceReviews = ({ service, serviceReviews }: { service: IService, serviceReviews: ReviewItem[] }) => {
 
     return (
         <section className="wrapper my-8 flex flex-col gap-3 md:gap-6">
@@ -21,10 +20,10 @@ const ServiceReviews = ({ service }: { service: ServiceItem }) => {
             {serviceReviews.length === 0 ? (
                 <p>No reviews yet</p>
             ) : (
-                // printe only 3  of them
-                serviceReviews.slice(0,3).map((review, index) => {
+                // printe only 3 of them
+                serviceReviews.map((review, index) => {
 
-                    const client = dummyUsers.find(user => user._id === review.client._id);
+                    const client = dummyUsers[0];
 
                     return (
 

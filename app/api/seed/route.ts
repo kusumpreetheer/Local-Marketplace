@@ -4,57 +4,129 @@ import { NextResponse } from 'next/server';
 import Category from '@/lib/database/models/category.model';
 import User from '@/lib/database/models/user.model';
 import Service from '@/lib/database/models/service.model';
+import Reservation from '@/lib/database/models/reservation.model';
 
 import { createCategory } from '@/lib/actions/category.actions';
-import { createUser } from '@/lib/actions/user.actions';
-import { createService } from '@/lib/actions/service.actions';
+import { createUser, getAllUsers, getUserById } from '@/lib/actions/user.actions';
+import { createService, getServiceByTitle } from '@/lib/actions/service.actions';
+import { createReservation } from '@/lib/actions/reservation.actions';
 
 import { dummyCategories } from '@/constants/dummyCategories';
-import { dummyUsers } from '@/constants/dummyUsersSeeding';
-import { dummyServices } from '@/constants/dummyServicesSeeding';
+import { dummyUsers } from '@/constants/dummyUsers';
+import { dummyServices } from '@/constants/dummyServices';
+import { dummyReservations } from '@/constants/dummyReservations';
+
+let adminID = "6618e3348cdeb4b036e920c2";
 
 // main function
 export async function POST(req: Request) {
     console.log('Seeding database');
 
-    // Categories
-    await deleteAllCategories();
-    await createAllCategories(dummyCategories);
-
-    // Users
-    await deleteAllUsers();
-    await createAllUsers(dummyUsers);
-
-    // Services
+    // Delete everything
     await deleteAllServices();
-    await createAllServices(dummyServices);
+    await deleteAllUsers();
+    await deleteAllReservations();
+
+    // Create everything 
+    await createAllUsers(dummyUsers);
 
     return NextResponse.json({ message: 'OK' });
 }
 
-/**
+/*******************************************************************
  *  Users
- */
+ *******************************************************************/
 const createAllUsers = async (dummyUsers: any[]) => {
-    console.log('Creating all users');
 
-    // create users
+    // create users and relationships
     for (let i = 0; i < dummyUsers.length; i++) {
         const user = dummyUsers[i];
-        await createUser(user);
+        const createdUser = await createUser(user);
+
+        console.log('createdUser:', createdUser);
+
+        // create services based on the user
+        if (createdUser.serviceIDs.length > 0) {
+            for (let j = 0; j < createdUser.serviceIDs.length; j++) {
+                const service = dummyServices.find(service => service._id === createdUser.serviceIDs[j]);
+
+                const createdService = await createService({
+                    service: service.params,
+                    userId: createdUser._id,
+                    path: '/profile'
+                })
+
+                console.log('createdService:', createdService);
+            }
+        }
     }
+
+
+    // create reservations based on the user
+    const usersFromDB = await getAllUsers();
+    for (let i = 0; i < usersFromDB.length; i++) {
+
+        const user = usersFromDB[i];
+
+        console.log('user:', user);
+        if (user.reservationIDs.length > 0) {
+            for (let j = 0; j < user.reservationIDs.length; j++) {
+                const reservation = dummyReservations.find(reservation => reservation._id === user.reservationIDs[j]);
+                const serviceTitle = dummyServices.find(service => service._id === reservation.params.serviceId).params.title;
+                const service = await getServiceByTitle(serviceTitle); // Await the getServiceByTitle function call
+
+                const createdReservation = await createReservation({
+                    reservation: reservation.params,
+                    serviceId: service._id,  // Access the _id property after awaiting the getServiceByTitle function call
+                    userId: user._id,
+                    path: '/services'
+                })
+
+                console.log('createdReservation:', createdReservation);
+            }
+        }
+    }
+
+    // create admins' services
+    const admin = await getUserById(adminID);
+    if (admin && admin.serviceIDs.length > 0) {
+        for (let i = 0; i < admin.serviceIDs.length; i++) {
+            const service = dummyServices.find(service => service._id === admin.serviceIDs[i]);
+            const createdService = await createService({
+                service: service.params,
+                userId: adminID,
+                path: '/profile'
+            })
+            console.log('createdService:', createdService);
+        }
+    }
+
+    // create admins' reservations
+    // if (admin && admin.reservationIDs.length > 0) {
+    //     for (let i = 0; i < admin.reservationIDs.length; i++) {
+    //         const reservation = dummyReservations.find(reservation => reservation._id === admin.reservationIDs[i]);
+    //         const serviceTitle = dummyServices.find(service => service._id === reservation.params.serviceId).params.title;
+    //         const service = await getServiceByTitle(serviceTitle); // Await the getServiceByTitle function call
+
+    //         const createdReservation = await createReservation({
+    //             reservation: reservation.params,
+    //             serviceId: service._id, // Access the _id property after awaiting the getServiceByTitle function call
+    //             userId: adminID,
+    //             path: '/user'
+    //         })
+    //         console.log('createdReservation:', createdReservation);
+    //     }
+    // }
+
     return NextResponse.json({ message: 'OK', user: dummyUsers });
 }
 
 const deleteAllUsers = async () => {
     console.log('Deleting all users except for the first user');
-    // const firstUser = getUserById('65fe1d847fd96b71a061aaff');
-
 
     try {
         await connectToDatabase();
-        // delete all users except for the first user
-        const deleted = await User.deleteMany({});
+        const deleted = await User.deleteMany({ _id: { $ne: adminID } });
         if (deleted) {
             console.log('Deleted all users', deleted);
         }
@@ -65,19 +137,9 @@ const deleteAllUsers = async () => {
     }
 }
 
-/**
- * Services
- */
-const createAllServices = async (dummyServices: any[]) => {
-    console.log('Creating all services');
-    // create services
-    for (let i = 0; i < dummyServices.length; i++) {
-        const service = dummyServices[i];
-        await createService(service);
-    }
-    return NextResponse.json({ message: 'OK', service: dummyServices });
-}
-
+/*******************************************************************
+ *  Services
+ *******************************************************************/
 const deleteAllServices = async () => {
     console.log('Deleting all services');
     try {
@@ -93,31 +155,21 @@ const deleteAllServices = async () => {
     }
 }
 
-/**
- *  Categories
- */
-const createAllCategories = async (dummyCategories: any[]) => {
-    console.log('Creating all categories');
-    // create categories
-    for (let i = 0; i < dummyCategories.length; i++) {
-        
-        const categoryName = dummyCategories[i].name;
-        await createCategory({categoryName});
-    }
-    return NextResponse.json({ message: 'OK', category: dummyCategories });
-}
+/*******************************************************************
+ *  Reservations
+ *******************************************************************/
 
-const deleteAllCategories = async () => {
-    console.log('Deleting all categories');
+const deleteAllReservations = async () => {
+    console.log('Deleting all reservations');
     try {
         await connectToDatabase();
-        const deleted = await Category.deleteMany({});
+        const deleted = await Reservation.deleteMany({});
         if (deleted) {
-            console.log('Deleted all categories', deleted);
+            console.log('Deleted all reservations', deleted);
         }
-        return NextResponse.json({ message: 'OK', category: deleted })
+        return NextResponse.json({ message: 'OK', reservation: deleted })
     } catch (error) {
-        console.error('Error deleting all categories:', error);
+        console.error('Error deleting all reservations:', error);
         return NextResponse.json({ message: 'Error', error: error })
     }
 }

@@ -3,9 +3,9 @@
 import React, { useState } from 'react'
 import Slider from '@mui/material/Slider';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import dummmyRatingReviews from "@/constants/dummyReviews";
+import dummmyReviews from "@/constants/dummyReviews";
 import dummyUsers from "@/constants/dummyUsers";
-import { IRatingReview } from '@/lib/database/models/ratingReview.model';
+import { IReview } from '@/lib/database/models/review.model';
 import { reviewDefaultValues } from '@/constants';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -18,7 +18,7 @@ import { Textarea } from '../ui/textarea';
 type ReviewFormProps = {
     userId: string
     type: "Create" | "Edit"
-    review?: IRatingReview,
+    review?: IReview,
     reviewId?: string
 }
 
@@ -86,7 +86,7 @@ const ReviewForm = ({ userId, type, review, reviewId }: ReviewFormProps) => {
     }
 
     const user = dummyUsers[0];
-    const reviews = dummmyRatingReviews.filter(review => review.clientID === user._id);
+    const reviews = dummmyReviews.filter(review => review.client._id === user._id);
 
     // State for editable ratings
     const [rating, setRating] = useState(reviews[0]?.rating);
@@ -108,7 +108,7 @@ const ReviewForm = ({ userId, type, review, reviewId }: ReviewFormProps) => {
 
     return (
 
-        <div className="mx-6">
+        <div className="wrapper mx-6">
 
             {/* Service Image */}
             <div className="border border-gray-200 rounded-lg overflow-hidden h-[210px] relative">
@@ -132,8 +132,6 @@ const ReviewForm = ({ userId, type, review, reviewId }: ReviewFormProps) => {
                     {/* Rating Slider */}
                     <div>
                         <h3 className="font-medium pb-3">Rating</h3>
-                        {/* Display current rating */}
-                        <p>{rating}</p>
                         {/* Slider for editing rating */}
                         <div className="mx-2">
 
@@ -208,13 +206,6 @@ const ReviewForm = ({ userId, type, review, reviewId }: ReviewFormProps) => {
                         ) : `${type} `}</Button>
                 </form>
             </Form>
-
-            {/* Edit review Button */}
-            <div className="flex justify-center items-center mt-2 mb-5">
-                <button className="px-4 py-4 border border-black rounded-md bg-black text-white w-full">
-                    Edit Review
-                </button>
-            </div>
         </div>
     )
 }

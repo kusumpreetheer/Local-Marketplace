@@ -1,175 +1,499 @@
 import { ReservationItem } from "@/lib/database/models/reservation.model";
 
-export const dummyReservations: ReservationItem[] = [
+export const dummyReservations: any[] = [
+    {
+        _id: "101",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "1",
+            serviceId: "1",
+            status: "pending",
+            selectedServices: ["1", "2", "3", "4"],
+        },
+    },
+    {
+        _id: "102",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "1",
+            serviceId: "2",
+            status: "pending",
+            selectedServices: ["1", "2"],
+        },
+    },
+    {
+        _id: "103",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "1",
+            serviceId: "3",
+            status: "pending",
+            selectedServices: ["2", "3"],
+        },
+    },
     {
         _id: "1",
-        createdAt: new Date(),
-        stripeId: "stripeId1",
-        totalAmount: 100,
-        reservationDate: new Date(),
-        clientId: { _id: "1", firstName: "Enya", lastName: "Umanzor" },
-        service: { 
-            _id: "1", 
-            title: "Wall Painter",
-            image: "https://source.unsplash.com/construction-worker-plastering-gypsum-walls-inside-the-house-xlH9sV9-wd0",
-            location: "24 whitecres Ave, Calgary AB",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "1",
+            serviceId: "2",
+            status: "pending",
+            selectedServices: ["1", "2"],
         },
-        date: "12:30 PM | 19 Febraury 2024",
-        notes: "Notes1",
-        status: "pending",
     },
     {
         _id: "2",
-        createdAt: new Date(),
-        stripeId: "stripeId2",
-        totalAmount: 110,
-        reservationDate: new Date(),
-        clientId: { _id: "2",firstName: "Alice", lastName: "Johnson" },
-        service: { 
-            _id: "2", 
-            title: "Electrician",
-            image: "https://source.unsplash.com/man-in-brown-hat-holding-black-and-gray-power-tool-_2AlIm-F6pw",
-            location: "123 Oak Street, Anytown, USA",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "1",
+            serviceId: "3",
+            status: "pending",
+            selectedServices: ["2", "3"],
         },
-        date: "10:00 AM | 20 February 2024",
-        notes: "Notes2",
-        status: "confirmed",
     },
     {
         _id: "3",
-        createdAt: new Date(),
-        stripeId: "stripeId3",
-        totalAmount: 300,
-        reservationDate: new Date(),
-        clientId: { _id: "3", firstName: "Bob", lastName: "Smith" },
-        service: { 
-            _id: "3", 
-            title: "Plumber",
-            image: "https://source.unsplash.com/a-man-working-on-a-pipe-in-a-wall-c314Gh8dXAo",
-            location: "456 Maple Avenue, Sometown, USA",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "1",
+            serviceId: "4",
+            status: "pending",
+            selectedServices: ["1", "3", "4"],
         },
-        date: "11:30 AM | 21 February 2024",
-        notes: "Notes3",
-        status: "completed",
     },
     {
         _id: "4",
-        createdAt: new Date(),
-        stripeId: "stripeId4",
-        totalAmount: 400,
-        reservationDate: new Date(),
-        clientId: { _id: "4", firstName: "Charlie", lastName: "Brown" },
-        service: { 
-            _id: "4", 
-            title: "Carpenter",
-            image: "https://source.unsplash.com/man-using-sander-on-beige-wooden-surface-mLO6ILUbADA",
-            location: "789 Pine Lane, Anycity, USA",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "2",
+            serviceId: "5",
+            status: "pending",
+            selectedServices: ["1", "2", "3"],
         },
-        date: "2:00 PM | 22 February 2024",
-        notes: "Notes4",
-        status: "cancelled",
     },
     {
         _id: "5",
-        createdAt: new Date(),
-        stripeId: "stripeId4",
-        totalAmount: 400,
-        reservationDate: new Date(),
-        clientId: { _id: "4", firstName: "Emily", lastName: "Parker" },
-        service: { 
-            _id: "4", 
-            title: "House Cleaning",
-            image: "https://source.unsplash.com/a-woman-in-a-green-shirt-and-black-gloves-vacuuming-a-gray-ottoman-5TXz228u4eo",
-            location: "",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "2",
+            serviceId: "6",
+            status: "pending",
+            selectedServices: ["1", "4"],
         },
-        date: "10:00 AM | 20 March 2024",
-        notes: "Notes4",
-        status: "cancelled",
     },
     {
         _id: "6",
-        createdAt: new Date(),
-        stripeId: "stripeId4",
-        totalAmount: 400,
-        reservationDate: new Date(),
-        clientId: { _id: "4", firstName: "Daniel", lastName: "Johnson" },
-        service: { 
-            _id: "4", 
-            title: "Gardening",
-            image: "https://source.unsplash.com/man-in-white-t-shirt-and-white-pants-sitting-on-brown-wooden-bench-JCZ2pE-Szpw",
-            location: "456 Oak Avenue, Anytown",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "2",
+            serviceId: "7",
+            status: "pending",
+            selectedServices: ["2", "4"],
         },
-        date: "11:30 AM | 21 March 2024",
-        notes: "Notes4",
-        status: "cancelled",
     },
     {
         _id: "7",
-        createdAt: new Date(),
-        stripeId: "stripeId4",
-        totalAmount: 400,
-        reservationDate: new Date(),
-        clientId: { _id: "4", firstName: "Sophia", lastName: "Smith" },
-        service: { 
-            _id: "4", 
-            title: "Interior Design",
-            image: "https://source.unsplash.com/white-and-brown-living-room-set-9M66C_w_ToM",
-            location: "789 Maple Drive, Anycity",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "3",
+            serviceId: "8",
+            status: "pending",
+            selectedServices: ["1", "2"],
         },
-        date: "2:00 PM | 22 March 2024",
-        notes: "Notes4",
-        status: "cancelled",
     },
     {
         _id: "8",
-        createdAt: new Date(),
-        stripeId: "stripeId4",
-        totalAmount: 400,
-        reservationDate: new Date(),
-        clientId: { _id: "4", firstName: "Olivia", lastName: "Taylor" },
-        service: { 
-            _id: "4", 
-            title: "Home Renovation",
-            image: "https://source.unsplash.com/woman-in-white-shirt-wearing-white-helmet-vK6HbLrGzZc",
-            location: "321 Pine Street, Anycity",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "3",
+            serviceId: "9",
+            status: "pending",
+            selectedServices: ["3", "4"],
         },
-        date: "9:00 AM | 23 March 2024",
-        notes: "Notes4",
-        status: "cancelled",
     },
     {
         _id: "9",
-        createdAt: new Date(),
-        stripeId: "stripeId4",
-        totalAmount: 400,
-        reservationDate: new Date(),
-        clientId: { _id: "4", firstName: "Noah", lastName: "Martinez" },
-        service: { 
-            _id: "4", 
-            title: "Roof Repair",
-            image: "https://source.unsplash.com/a-man-standing-on-the-roof-of-a-house--1l0iZaM8ms",
-            location: "789 Oak Lane, Springfield",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "3",
+            serviceId: "10",
+            status: "pending",
+            selectedServices: ["2", "3", "4"],
         },
-        date: "10:30 AM | 24 March 2024",
-        notes: "Notes4",
-        status: "cancelled",
     },
     {
         _id: "10",
-        createdAt: new Date(),
-        stripeId: "stripeId4",
-        totalAmount: 400,
-        reservationDate: new Date(),
-        clientId: { _id: "4", firstName: "Sophia", lastName: "Smith" },
-        service: { 
-            _id: "4", 
-            title: "Interior Design",
-            image: "https://source.unsplash.com/tufted-sofa-near-coffee-table-MNz7IGrcEl0",
-            location: "789 Maple Drive, Anycity",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "4",
+            serviceId: "11",
+            status: "pending",
+            selectedServices: ["1", "2"],
         },
-        date: "11:30 AM | 21 March 2024",
-        notes: "Notes4",
-        status: "cancelled",
     },
-
+    {
+        _id: "11",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "4",
+            serviceId: "12",
+            status: "pending",
+            selectedServices: ["2", "3"],
+        },
+    },
+    {
+        _id: "12",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "4",
+            serviceId: "13",
+            status: "pending",
+            selectedServices: ["1", "3", "4"],
+        },
+    },
+    {
+        _id: "13",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "5",
+            serviceId: "14",
+            status: "pending",
+            selectedServices: ["1", "2", "3"],
+        },
+    },
+    {
+        _id: "14",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "5",
+            serviceId: "15",
+            status: "pending",
+            selectedServices: ["1", "4"],
+        },
+    },
+    {
+        _id: "15",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "5",
+            serviceId: "16",
+            status: "pending",
+            selectedServices: ["2", "4"],
+        },
+    },
+    {
+        _id: "16",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "6",
+            serviceId: "17",
+            status: "pending",
+            selectedServices: ["1", "2"],
+        },
+    },
+    {
+        _id: "17",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "6",
+            serviceId: "18",
+            status: "pending",
+            selectedServices: ["3", "4"],
+        },
+    },
+    {
+        _id: "18",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "6",
+            serviceId: "19",
+            status: "pending",
+            selectedServices: ["2", "3", "4"],
+        },
+    },
+    {
+        _id: "19",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "7",
+            serviceId: "20",
+            status: "pending",
+            selectedServices: ["1", "2"],
+        },
+    },
+    {
+        _id: "20",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "7",
+            serviceId: "21",
+            status: "pending",
+            selectedServices: ["2", "3"],
+        },
+    },
+    {
+        _id: "21",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "7",
+            serviceId: "22",
+            status: "pending",
+            selectedServices: ["1", "3", "4"],
+        },
+    },
+    {
+        _id: "22",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "8",
+            serviceId: "23",
+            status: "pending",
+            selectedServices: ["1", "2", "3"],
+        },
+    },
+    {
+        _id: "23",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "8",
+            serviceId: "24",
+            status: "pending",
+            selectedServices: ["1", "4"],
+        },
+    },
+    {
+        _id: "24",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "8",
+            serviceId: "25",
+            status: "pending",
+            selectedServices: ["2", "4"],
+        },
+    },
+    {
+        _id: "25",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "9",
+            serviceId: "26",
+            status: "pending",
+            selectedServices: ["1", "2"],
+        },
+    },
+    {
+        _id: "26",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "9",
+            serviceId: "27",
+            status: "pending",
+            selectedServices: ["3", "4"],
+        },
+    },
+    {
+        _id: "27",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "9",
+            serviceId: "28",
+            status: "pending",
+            selectedServices: ["2", "3", "4"],
+        },
+    },
+    {
+        _id: "28",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "10",
+            serviceId: "29",
+            status: "pending",
+            selectedServices: ["1", "2"],
+        },
+    },
+    {
+        _id: "29",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "10",
+            serviceId: "30",
+            status: "pending",
+            selectedServices: ["2", "3"],
+        },
+    },
+    {
+        _id: "30",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "10",
+            serviceId: "31",
+            status: "pending",
+            selectedServices: ["1", "3", "4"],
+        },
+    },
+    {
+        _id: "31",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "11",
+            serviceId: "32",
+            status: "pending",
+            selectedServices: ["1", "2", "3"],
+        },
+    },
+    {
+        _id: "32",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "11",
+            serviceId: "33",
+            status: "pending",
+            selectedServices: ["1", "4"],
+        },
+    },
+    {
+        _id: "33",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "11",
+            serviceId: "34",
+            status: "pending",
+            selectedServices: ["2", "4"],
+        },
+    },
+    {
+        _id: "34",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "12",
+            serviceId: "35",
+            status: "pending",
+            selectedServices: ["1", "2"],
+        },
+    },
+    {
+        _id: "35",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "12",
+            serviceId: "36",
+            status: "pending",
+            selectedServices: ["3", "4"],
+        },
+    },
+    {
+        _id: "36",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "12",
+            serviceId: "37",
+            status: "pending",
+            selectedServices: ["2", "3", "4"],
+        },
+    },
+    {
+        _id: "37",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "13",
+            serviceId: "38",
+            status: "pending",
+            selectedServices: ["1", "2"],
+        },
+    },
+    {
+        _id: "38",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "13",
+            serviceId: "39",
+            status: "pending",
+            selectedServices: ["2", "3"],
+        },
+    },
+    {
+        _id: "39",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "13",
+            serviceId: "40",
+            status: "pending",
+            selectedServices: ["1", "3", "4"],
+        },
+    },
+    {
+        _id: "40",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "14",
+            serviceId: "41",
+            status: "pending",
+            selectedServices: ["1", "2", "3"],
+        },
+    },
+    {
+        _id: "41",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "14",
+            serviceId: "42",
+            status: "pending",
+            selectedServices: ["1", "4"],
+        },
+    },
+    {
+        _id: "42",
+        params:
+        {
+            reservationDate: new Date(),
+            clientId: "14",
+            serviceId: "43",
+            status: "pending",
+            selectedServices: ["2", "4"],
+        },
+    },
 ];
